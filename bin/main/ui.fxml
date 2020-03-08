@@ -43,10 +43,10 @@
                            <children>
                               <Label layoutX="79.0" layoutY="44.0" text="* Handle 404 not found" />
                               <Label layoutX="78.0" layoutY="61.0" text="* Re-structure the code to incorporate &quot;sections&quot;; Adding section code (L1, LA1, etc..) in the console output below" />
-                              <Label layoutX="96.0" layoutY="108.0" text="Total Number of difference sections in this search" />
+                              <Label layoutX="96.0" layoutY="108.0" text="Total Number of different sections in this search" />
                               <Label layoutX="96.0" layoutY="133.0" text="Total Number of Courses in this search" />
                               <Label layoutX="78.0" layoutY="78.0" text="* Add the following info to the console output" />
-                              <Label layoutX="96.0" layoutY="159.0" text="Instrctuors who has teaching assignment this term but does not need to teach at Tu 3:10pm" />
+                              <Label layoutX="96.0" layoutY="159.0" text="Instrctuors with teaching assignment this term but do not need to teach at Tu 3:10pm" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -141,7 +141,7 @@
                               <Label layoutX="65.0" layoutY="210.0" text="Total Number of Categories/Code Prefix" />
                               <Label layoutX="65.0" layoutY="193.0" text="Total Number of Courses fetched" />
                               <Label layoutX="45.0" layoutY="118.0" text="*Search all subjects when this button is click. (text typed in textfieldSubject is ignored)" />
-                              <Label layoutX="45.0" layoutY="144.0" text="*Progress bar needs to update when one subject is scraped." />
+                              <Label layoutX="45.0" layoutY="144.0" text="*Progress bar will be updated whenever a subject has been scraped." />
                               <Label layoutX="45.0" layoutY="176.0" text="*correctly print the following info to the console below" />
                            </children>
                         </AnchorPane>
@@ -156,8 +156,8 @@
                               <Button fx:id="buttonSfqEnrollCourse" layoutX="147.0" layoutY="64.0" mnemonicParsing="false" onAction="#findSfqEnrollCourse" text="Find SFQ with my enrolled courses" />
                               <Button fx:id="buttonInstructorSfq" layoutX="384.0" layoutY="64.0" mnemonicParsing="false" onAction="#findInstructorSfq" text="List instructors' average SFQ" />
                               <Label layoutX="42.0" layoutY="132.0" text="You may assume no login is required when you scrape the SFQ page" />
-                              <Label layoutX="42.0" layoutY="176.0" prefHeight="44.0" prefWidth="601.0" text="When Find SFQ button is clicked, unadjusted SFQ data will be printed (not the data inside [] ). If a course has multiple section, only the course average is needed." wrapText="true" />
-                              <Label layoutX="42.0" layoutY="233.0" prefHeight="72.0" prefWidth="622.0" text="When List instructors average button is clicked, all unadjusted SFQ data of sections taught by an instructor will be added and divided by number of sections he/she taught. Thus, there is no need to consider the number of students. We assume there will be no lab/tutorial section on this page." wrapText="true" />
+                              <Label layoutX="42.0" layoutY="176.0" prefHeight="44.0" prefWidth="601.0" text="When Find SFQ button is clicked, unadjusted SFQ data will be printed (not the data inside [] ). If a course has multiple section,s only the course average is needed." wrapText="true" />
+                              <Label layoutX="42.0" layoutY="233.0" prefHeight="72.0" prefWidth="622.0" text="When List instructors average button is clicked, all unadjusted SFQ data of sections taught by an instructor will be added and divided by the number of sections he/she taught. Thus, there is no need to consider the number of students. We assume there will be no lab/tutorial section on this page." wrapText="true" />
                            </children>
                         </AnchorPane>
                     </content>
