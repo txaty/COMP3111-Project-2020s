@@ -1,6 +1,5 @@
 package comp3111.coursescraper;
 
-
 import java.awt.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

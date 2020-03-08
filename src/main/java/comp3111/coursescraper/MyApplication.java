@@ -54,8 +54,6 @@ public class MyApplication extends Application {
    		stage.setScene(scene);
    		stage.setTitle("Course Scraper");
    		stage.show();
-    		
-
 	}
 
 	/**

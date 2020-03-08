@@ -1,26 +1,21 @@
 //https://ksah.in/introduction-to-web-scraping-with-java/
 //https://github.com/ksahin/introWebScraping
 
+/*
 apply plugin: 'java'
 apply plugin: 'jacoco'
 apply plugin: 'application'
+*/
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
-
-jar {
-    baseName = 'courseScraper'
-    version =  '0.1.0'
-    destinationDir = file("/")
-    manifest {
-        attributes 'Implementation-Title': baseName,  
-        	'Implementation-Version': version,
-        	'Main-Class': 'comp3111.coursescraper.MyApplication'
-    }
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+plugins {
+	id 'application'
+	id 'org.openjfx.javafxplugin' version '0.0.8'
+	id 'java'
+	id 'jacoco'
 }
-
-mainClassName = 'comp3111.coursescraper.MyApplication'
+	
+//sourceCompatibility = '1.8'
+//targetCompatibility = '1.8'
 
 repositories {
     mavenCentral()
@@ -43,8 +38,6 @@ dependencies {
 	
 	// testFX - https://github.com/TestFX/TestFX
 	testCompile  group: 'org.testfx', name: 'testfx-junit', version : '4.0.15-alpha'
-	 
-
 }
 
 jacocoTestReport {
@@ -56,3 +49,28 @@ jacocoTestReport {
 }
 
 
+jar {
+    baseName = 'courseScraper'
+    version =  '0.1.0'
+    destinationDir = file("/")
+    manifest {
+        attributes 'Implementation-Title': baseName,  
+        	'Implementation-Version': version,
+        	'Main-Class': 'comp3111.coursescraper.MyApplication'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+javafx {
+	version = "13.0.2"
+	modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+run {
+	if (javafx.platform.classifier == 'win') {
+		// Temporal fix for Eclipse with JDK 1.8 and Windows
+		systemProperty "java.library.path", "C:\tmp"
+		}
+}
+		
+mainClassName = 'comp3111.coursescraper.MyApplication'

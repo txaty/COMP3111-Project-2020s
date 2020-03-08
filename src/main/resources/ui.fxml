@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="679.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.coursescraper.Controller">
+<VBox prefHeight="679.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.coursescraper.Controller">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="437.0" prefWidth="719.0">
       <children>
@@ -27,12 +27,12 @@
                            <children>
                               <Label layoutX="98.0" layoutY="67.0" prefHeight="17.0" prefWidth="66.0" text="Term" />
                               <Label layoutX="98.0" layoutY="98.0" text="Subject" />
-                              <TextField fx:id="textfieldTerm" layoutX="164.0" layoutY="63.0" prefHeight="25.0" prefWidth="343.0" promptText="e.g 1830 (18: yr 18-19; 30: Spring)" text="1830" />
+                              <TextField fx:id="textfieldTerm" layoutX="164.0" layoutY="63.0" prefHeight="25.0" prefWidth="343.0" promptText="e.g 1830 (18: yr 18-19; 30: Spring)" text="1910" />
                               <TextField fx:id="textfieldSubject" layoutX="164.0" layoutY="94.0" text="COMP" />
                               <Button fx:id="buttonSearch" layoutX="458.0" layoutY="94.0" mnemonicParsing="false" onAction="#search" text="Search" />
                               <Label layoutX="98.0" layoutY="35.0" text="Base URL" />
                               <TextField fx:id="textfieldURL" layoutX="164.0" layoutY="31.0" prefHeight="25.0" prefWidth="343.0" text="https://w5.ab.ust.hk/wcq/cgi-bin/" />
-                              <Label layoutX="39.0" layoutY="185.0" text="Please note that during grading we will save the Base URL into another site and manually edit some data. Don't hardcode" />
+                              <Label layoutX="39.0" layoutY="185.0" text="Please note that during grading we will save the Base URL into another site and manually edit some data. Don't hardcode" textFill="#111111" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -152,7 +152,7 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="82.0" layoutY="31.0" text="SFQ URL" />
-                              <TextField fx:id="textfieldSfqUrl" layoutX="147.0" layoutY="27.0" prefHeight="25.0" prefWidth="403.0" text="http://sfq.ust.hk/results/eng-f18.html" />
+                              <TextField fx:id="textfieldSfqUrl" layoutX="147.0" layoutY="27.0" prefHeight="25.0" prefWidth="403.0" text="http://sfq.ust.hk/results/eng-f19.html " />
                               <Button fx:id="buttonSfqEnrollCourse" layoutX="147.0" layoutY="64.0" mnemonicParsing="false" onAction="#findSfqEnrollCourse" text="Find SFQ with my enrolled courses" />
                               <Button fx:id="buttonInstructorSfq" layoutX="384.0" layoutY="64.0" mnemonicParsing="false" onAction="#findInstructorSfq" text="List instructors' average SFQ" />
                               <Label layoutX="42.0" layoutY="132.0" text="You may assume no login is required when you scrape the SFQ page" />
