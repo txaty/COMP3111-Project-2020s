@@ -32,7 +32,7 @@ https://github.com/tommytim0515/COMP3111-Project-2020s.git
 
 2. **CHEN Ziwei**
 
-     Email: zchenci@connect.ust.hk|GitHub: zchenci|Dey Branch: Czw_feature2
+     Email: zchenci@connect.ust.hk|GitHub: zchenci|Dev Branch: Czw_feature2
      
      Task 2 & Task 3
 
