@@ -34,5 +34,5 @@ https://github.com/tommytim0515/COMP3111-Project-2020s.git
 
      Email: zchenci@connect.ust.hk|GitHub: zchenci|Dey Branch: Czw_feature2
      
-     Task 2 & Task 5
+     Task 2 & Task 3
 
