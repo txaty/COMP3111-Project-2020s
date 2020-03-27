@@ -21,3 +21,12 @@ Codebase at GitHub: https://github.com/namkiu2020/comp3111-project-2020s
 
 There are 6 tasks for each team to complete. Each student should complete TWO of the tasks. All tasks are closely related, and team members are expected to work together collaboratively in delivering a fully functional system. In most cases, no point will be awarded if a related task has not been completed. Points are given in an all-or-nothing manner.
 
+## Team T-30
+https://github.com/tommytim0515/COMP3111-Project-2020s.git
+
+1. **SHENG Ruoheng**
+
+	Email: rshengab@connect.ust.hk|GitHub: rshengab|Dev Branch: Srh_feature1
+
+	Task 1 & Task 4
+
