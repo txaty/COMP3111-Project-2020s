@@ -30,3 +30,9 @@ https://github.com/tommytim0515/COMP3111-Project-2020s.git
 
 	Task 1 & Task 4
 
+2. **CHEN Ziwei**
+
+     Email: zchenci@connect.usy.hk|GitHub: zchenci|Dey Branch: Czw_feature2
+     
+     Task 2 & Task 5
+
