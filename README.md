@@ -36,3 +36,8 @@ https://github.com/tommytim0515/COMP3111-Project-2020s.git
      
      Task 2 & Task 3
 
+2. **TIAN Xiangan**
+
+     Email: xtianae@connect.ust.hk|GitHub: tommytim0515|Dev Branch: tommy_feature1
+     
+     Task 5 & Task 6
