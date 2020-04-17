@@ -11,6 +11,7 @@ public class Slot {
 	private LocalTime start;
 	private LocalTime end;
 	private String venue;
+	//private Section section;
 	public static final String DAYS[] = {"Mo", "Tu", "We", "Th", "Fr", "Sa"};
 	public static final Map<String, Integer> DAYS_MAP = new HashMap<String, Integer>();
 	static {

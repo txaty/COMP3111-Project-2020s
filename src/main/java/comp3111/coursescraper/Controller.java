@@ -87,34 +87,39 @@ public class Controller {
 
     @FXML
     void search() {
+    	
     	List<Course> v = scraper.scrape(textfieldURL.getText(), textfieldTerm.getText(),textfieldSubject.getText());
-    	for (Course c : v) {
-    		String newline = c.getTitle() + "\n";
-    		for (int i = 0; i < c.getNumSlots(); i++) {
-    			Slot t = c.getSlot(i);
-    			newline += "Slot " + i + ":" + t + "\n";
-    		}
-    		textAreaConsole.setText(textAreaConsole.getText() + "\n" + newline);
+    	if(v == null) {
+    		textAreaConsole.setText("Please enter a valid URL:)");
     	}
+    	else {
+    		for (Course c : v) {
+    			String newline = c.getTitle() + "\n";
+    			for (int i = 0; i < c.getNumSlots(); i++) {
+    				Slot t = c.getSlot(i);
+    				newline += "Slot " + i + ":" + t + "\n";
+    			}
+    			textAreaConsole.setText(textAreaConsole.getText() + "\n" + newline);
+    		}
     	
-    	//Add a random block on Saturday
-    	AnchorPane ap = (AnchorPane)tabTimetable.getContent();
-    	Label randomLabel = new Label("COMP1022\nL1");
-    	Random r = new Random();
-    	double start = (r.nextInt(10) + 1) * 20 + 40;
+    		//Add a random block on Saturday
+    		AnchorPane ap = (AnchorPane)tabTimetable.getContent();
+    		Label randomLabel = new Label("COMP1022\nL1");
+    		Random r = new Random();
+    		double start = (r.nextInt(10) + 1) * 20 + 40;
 
-    	randomLabel.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-    	randomLabel.setLayoutX(600.0);
-    	randomLabel.setLayoutY(start);
-    	randomLabel.setMinWidth(100.0);
-    	randomLabel.setMaxWidth(100.0);
-    	randomLabel.setMinHeight(60);
-    	randomLabel.setMaxHeight(60);
+    		randomLabel.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+    		randomLabel.setLayoutX(600.0);
+    		randomLabel.setLayoutY(start);
+    		randomLabel.setMinWidth(100.0);
+    		randomLabel.setMaxWidth(100.0);
+    		randomLabel.setMinHeight(60);
+    		randomLabel.setMaxHeight(60);
     
-    	ap.getChildren().addAll(randomLabel);
+    		ap.getChildren().addAll(randomLabel);
     	
     	
-    	
+    	}
     }
 
 }

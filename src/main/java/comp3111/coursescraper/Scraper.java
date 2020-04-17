@@ -11,7 +11,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.DomText;
 import java.util.Vector;
-
+import java.net.MalformedURLException;
 
 /**
  * WebScraper provide a sample code that scrape web content. After it is constructed, you can call the method scrape with a keyword, 
@@ -90,6 +90,8 @@ public class Scraper {
 	private void addSlot(HtmlElement e, Course c, boolean secondRow) {
 		String times[] =  e.getChildNodes().get(secondRow ? 0 : 3).asText().split(" ");
 		String venue = e.getChildNodes().get(secondRow ? 1 : 4).asText();
+		String section = e.asText();
+		System.out.println(section);
 		if (times[0].equals("TBA"))
 			return;
 		for (int j = 0; j < times[0].length(); j+=2) {
@@ -109,7 +111,6 @@ public class Scraper {
 	public List<Course> scrape(String baseurl, String term, String sub) {
 
 		try {
-			
 			HtmlPage page = client.getPage(baseurl + "/" + term + "/subject/" + sub);
 
 			
@@ -148,7 +149,6 @@ public class Scraper {
 			client.close();
 			return result;
 		} catch (Exception e) {
-			System.out.println(e);
 		}
 		return null;
 	}
