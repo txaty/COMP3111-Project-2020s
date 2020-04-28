@@ -101,8 +101,11 @@ public class Controller {
     		textAreaConsole.setText(textAreaConsole.getText()+ "\n" + "Total Number of Courses in this search: " + v.size());
     		textAreaConsole.setText(textAreaConsole.getText()+ "\n" + "Instructors who has teaching assignment this term but does not need to teach at Tu 3:10pm: ");
     		String [] instructorList = new String[3*totalSec];
+    		String [] noIns = new String[3*totalSec];
     		int totalIns = 0;
+    		int totalNo = 0;
     		for (int i = 0; i < 3*totalSec; i++) instructorList[i] = null; 
+    		for (int i = 0; i < 3*totalSec; i++) noIns[i] = null; 
     		for(Course c : v) {
     			for(int i = 0; i < c.getNumSections(); i++) {
     				boolean available = true;
@@ -110,6 +113,9 @@ public class Controller {
     					Slot s = c.getSection(i).getSlot(j).clone();
     					if((s.getDay() == 1) && ((s.getStartHour()<=14)||(s.getStartHour()==15 && s.getStartMinute()<10)) && ((s.getEndHour()>15)||(s.getEndHour()==15&&s.getEndMinute()>10))) {
     						available = false;
+    						for(int m = 0; m < c.getSection(i).getNumInstructors(); m++) {
+    							noIns[totalNo++] = c.getSection(i).getInstructor(m);
+    						}
     						break;
     					}
     				}
@@ -124,7 +130,14 @@ public class Controller {
         							break;
         						}
         					}
-        					if(exist == false) {
+        					boolean inNo = false;
+        					for(int n = 0; n < totalNo; n++) {
+        						if(noIns[n].equals(c.getSection(i).getInstructor(k))) {
+        							inNo = true;
+        							break;
+        						}
+        					}
+        					if(exist == false && inNo == false) {
         						instructorList[totalIns++] = c.getSection(i).getInstructor(k);
         					}
         				}
