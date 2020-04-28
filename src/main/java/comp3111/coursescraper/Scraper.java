@@ -87,23 +87,69 @@ public class Scraper {
 		client.getOptions().setJavaScriptEnabled(false);
 	}
 
-	private void addSlot(HtmlElement e, Course c, boolean secondRow) {
+	private boolean addSlotAndSection(HtmlElement e, Course c, boolean secondRow, String sec) {
 		String times[] =  e.getChildNodes().get(secondRow ? 0 : 3).asText().split(" ");
 		String venue = e.getChildNodes().get(secondRow ? 1 : 4).asText();
-		String section = e.asText();
-		System.out.println(section);
-		if (times[0].equals("TBA"))
-			return;
-		for (int j = 0; j < times[0].length(); j+=2) {
-			String code = times[0].substring(j , j + 2);
-			if (Slot.DAYS_MAP.get(code) == null)
-				break;
-			Slot s = new Slot();
-			s.setDay(Slot.DAYS_MAP.get(code));
-			s.setStart(times[1]);
-			s.setEnd(times[3]);
-			s.setVenue(venue);
-			c.addSlot(s);	
+		if(secondRow) {
+			if (times[0].equals("TBA"))
+				return true;
+			for (int j = 0; j < times[0].length(); j+=2) {
+				String code = times[0].substring(j , j + 2);
+				if (Slot.DAYS_MAP.get(code) == null)
+					break;
+				Slot s = new Slot();
+				s.setDay(Slot.DAYS_MAP.get(code));
+				s.setStart(times[1]);
+				s.setEnd(times[3]);
+				s.setVenue(venue);
+				s.setSection(sec);
+				Section newSec = c.getSection(c.getNumSections()-1).clone();
+				newSec.addSlot(s);
+				c.changeSection(newSec);
+				c.addSlot(s);
+				
+			}
+			return true;
+		}
+		else {
+			List<?> centerList = (List<?>) e.getByXPath(".//td[@align='center']");
+			HtmlElement center = (HtmlElement) centerList.get(0);
+			String section =center.asText();
+			if((section.charAt(0) == 'L') || (section.charAt(0) == 'T')) {
+				Section se = new Section();
+				se.setCode(section);
+				se.setCourse(c.getTitle());
+				String instructor[] = e.getChildNodes().get(5).asText().split("\n");
+				if(instructor[0].equals("TBA") == false) {
+					se.setInstructors(instructor);
+					se.setNumInstructors(instructor.length);
+				}
+				else {
+					se.setInstructors(null);
+					se.setNumInstructors(0);
+				}
+				if (times[0].equals("TBA")) {
+					c.addSection(se);
+					return true;
+				}
+
+				for (int j = 0; j < times[0].length(); j+=2) {
+					String code = times[0].substring(j , j + 2);
+					if (Slot.DAYS_MAP.get(code) == null)
+						break;
+					Slot s = new Slot();
+					s.setDay(Slot.DAYS_MAP.get(code));
+					s.setStart(times[1]);
+					s.setEnd(times[3]);
+					s.setVenue(venue);
+					s.setSection(section);
+					se.addSlot(s);
+					c.addSlot(s);
+				}
+				c.addSection(se);
+				return true;
+			}
+			return false;
 		}
 
 	}
@@ -112,7 +158,6 @@ public class Scraper {
 
 		try {
 			HtmlPage page = client.getPage(baseurl + "/" + term + "/subject/" + sub);
-
 			
 			List<?> items = (List<?>) page.getByXPath("//div[@class='course']");
 			
@@ -121,7 +166,7 @@ public class Scraper {
 			for (int i = 0; i < items.size(); i++) {
 				Course c = new Course();
 				HtmlElement htmlItem = (HtmlElement) items.get(i);
-				
+
 				HtmlElement title = (HtmlElement) htmlItem.getFirstByXPath(".//h2");
 				c.setTitle(title.asText());
 				
@@ -135,20 +180,24 @@ public class Scraper {
 					}
 				}
 				c.setExclusion((exclusion == null ? "null" : exclusion.asText()));
-				
+
 				List<?> sections = (List<?>) htmlItem.getByXPath(".//tr[contains(@class,'newsect')]");
 				for ( HtmlElement e: (List<HtmlElement>)sections) {
-					addSlot(e, c, false);
+					boolean a = addSlotAndSection(e, c, false, null);
 					e = (HtmlElement)e.getNextSibling();
-					if (e != null && !e.getAttribute("class").contains("newsect"))
-						addSlot(e, c, true);
+					if (e != null && !e.getAttribute("class").contains("newsect") && a == true) {
+						addSlotAndSection(e, c, true, c.getSlot(c.getNumSlots()-1).getSection());
+					}
 				}
 				
 				result.add(c);
 			}
 			client.close();
 			return result;
+		} catch (com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException e) {
+			return null;
 		} catch (Exception e) {
+			System.out.println(e);
 		}
 		return null;
 	}

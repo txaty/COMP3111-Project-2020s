@@ -11,13 +11,14 @@ public class Slot {
 	private LocalTime start;
 	private LocalTime end;
 	private String venue;
-	//private Section section;
+	private String section;
 	public static final String DAYS[] = {"Mo", "Tu", "We", "Th", "Fr", "Sa"};
 	public static final Map<String, Integer> DAYS_MAP = new HashMap<String, Integer>();
 	static {
 		for (int i = 0; i < DAYS.length; i++)
 			DAYS_MAP.put(DAYS[i], i);
 	}
+	
 
 	@Override
 	public Slot clone() {
@@ -26,6 +27,7 @@ public class Slot {
 		s.start = this.start;
 		s.end = this.end;
 		s.venue = this.venue;
+		s.section = this.section;
 		return s;
 	}
 	public String toString() {
@@ -91,6 +93,14 @@ public class Slot {
 	 */
 	public void setDay(int day) {
 		this.day = day;
+	}
+	
+	public String getSection() {
+		return section;
+	}
+	
+	public void setSection(String s) {
+		this.section = s;
 	}
 
 }
