@@ -11,9 +11,7 @@ import static org.junit.Assert.*;
 public class ItemTest {
 
 	@Test
-	public void testSetTitle() {
-		Course i = new Course();
-		i.setTitle("ABCDE");
-		assertEquals(i.getTitle(), "ABCDE");
+	public void testSelectAll(){
+		
 	}
 }
