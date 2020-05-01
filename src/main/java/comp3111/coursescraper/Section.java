@@ -1,7 +1,5 @@
 package comp3111.coursescraper;
 
-import javafx.scene.control.CheckBox;
-
 public class Section {
 	private String code;
 	private String course;
