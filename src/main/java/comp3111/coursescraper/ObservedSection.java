@@ -63,7 +63,7 @@ public class ObservedSection {
     public void setCheckBox(CheckBox cb) {
     	checkBox = cb;
     }
-
+    
     public Section getSection() {
     	return section;
     }
