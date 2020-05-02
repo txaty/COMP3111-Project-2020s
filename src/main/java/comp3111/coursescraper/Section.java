@@ -8,6 +8,7 @@ public class Section {
 	private Slot [] slots;
 	private int numSlots;
 	private static final int MAX_SLOT = 3;
+	private boolean enrolled = false;
 	
 	public Section() {
 		slots = new Slot[MAX_SLOT];
@@ -35,7 +36,7 @@ public class Section {
 		return code;
 	}
 	
-	public String course() {
+	public String getCourse() {
 		return course;
 	}
 	
@@ -69,18 +70,35 @@ public class Section {
 		else
 			return null;
 	}
-	
+
 	public void addSlot(Slot s) {
 		if (numSlots >= MAX_SLOT)
 			return;
 		slots[numSlots++] = s.clone();
 	}
-	
+
 	public int getNumSlots() {
 		return numSlots;
 	}
-	
+
 	public void setNumSlots(int n) {
 		numSlots = n;
 	}
+	
+	public void changeEnroll() {
+		enrolled = !enrolled;
+	}
+	
+	public boolean isEnrolled() {
+		return enrolled;
+	}
+	
+	public boolean isLab() {
+		return code.charAt(0)=='L' && code.charAt(1)=='A' ;
+	}
+	
+	public boolean isTutorial() {
+		return code.charAt(0)=='T';
+	}
+
 }
