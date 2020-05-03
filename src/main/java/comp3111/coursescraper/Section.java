@@ -89,6 +89,10 @@ public class Section {
 		enrolled = !enrolled;
 	}
 	
+	public void setEnrolled() {
+		enrolled = true;
+	}
+	
 	public boolean isEnrolled() {
 		return enrolled;
 	}
@@ -100,5 +104,12 @@ public class Section {
 	public boolean isTutorial() {
 		return code.charAt(0)=='T';
 	}
+	
+	public boolean sectionEquals(Section s) {
+		if(code.equals(s.code) && course.equals(s.course))
+			return true;
+		return false;
+	}
+	
 
 }

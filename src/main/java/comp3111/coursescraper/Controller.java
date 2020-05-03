@@ -21,7 +21,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 import java.util.Random;
 import java.util.Vector;
@@ -102,14 +101,24 @@ public class Controller {
     @FXML
     void search() { 	
     	v = scraper.scrape(textfieldURL.getText(), textfieldTerm.getText(),textfieldSubject.getText());
-    	filteredCourse = v;
     	if(v == null) {
     		textAreaConsole.setText("Please enter a valid URL:)");
     	}
-    	else { 
+    	else 
+    		showSearchInfo();
+    }
+    
+    public void showSearchInfo() {
+    		filteredCourse = null;
+    		filteredCourse = new Vector<Course>();
+    		for(Course c: v) {
+    			if(allFilterTrue(c)) {
+    				filteredCourse.add(c);
+    			}
+    		}
     		int totalSec = 0;
-    		for (Course c : v) {
-    			totalSec += c.getNumSections();
+    		for (Course c : filteredCourse) {
+    			totalSec += c.getNumSections();   			
     		}
     		textAreaConsole.setText("Total Number of difference sections in this search: "+totalSec);
     		textAreaConsole.setText(textAreaConsole.getText()+ "\n" + "Total Number of Courses in this search: " + v.size());
@@ -120,7 +129,7 @@ public class Controller {
     		int totalNo = 0;
     		for (int i = 0; i < 3*totalSec; i++) instructorList[i] = null; 
     		for (int i = 0; i < 3*totalSec; i++) noIns[i] = null; 
-    		for(Course c : v) {
+    		for(Course c : filteredCourse) {
     			for(int i = 0; i < c.getNumSections(); i++) {
     				boolean available = true;
     				for(int j = 0; j < c.getSection(i).getNumSlots(); j++) {
@@ -174,7 +183,7 @@ public class Controller {
     			}
     			textAreaConsole.setText(textAreaConsole.getText()+instructorList[totalIns-1]+"\n");
     		}
-    		for (Course c : v) {
+    		for (Course c : filteredCourse) {
     			String newline = c.getTitle() + "\n";
     			for (int i = 0; i < c.getNumSlots(); i++) {
     				Slot t = c.getSlot(i);
@@ -183,27 +192,13 @@ public class Controller {
     			}
     			textAreaConsole.setText(textAreaConsole.getText() + "\n" + newline);
     		}
-    	
-    		/*Add a random block on Saturday
-    		AnchorPane ap = (AnchorPane)tabTimetable.getContent();
-    		Label randomLabel = new Label("COMP1022\nL1");
-    		Random r = new Random();
-    		double start = (r.nextInt(10) + 1) * 20 + 40;
-
-    		randomLabel.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-    		randomLabel.setLayoutX(600.0);
-    		randomLabel.setLayoutY(start);
-    		randomLabel.setMinWidth(100.0);
-    		randomLabel.setMaxWidth(100.0);
-    		randomLabel.setMinHeight(60);
-    		randomLabel.setMaxHeight(60);
-    
-    		ap.getChildren().addAll(randomLabel);
-    		*/
+    		for (Course c : filteredCourse)
+    		for(int i = 0; i < c.getNumSections(); i++) {
+				searchSectionEnrolled(c.getSection(i));
+			}
     	list();
-    	}
     }
-    
+
     //Task2
     
     @FXML
@@ -266,21 +261,7 @@ public class Controller {
     @FXML
     private void filter() {
     	textAreaConsole.clear();
-    	filteredCourse = null;
-    	filteredCourse = new Vector<Course>();
-    	for (Course c : v) {
-    		if(allFilterTrue(c)) {
-    		filteredCourse.add(c);
-			String newline = c.getTitle() + "\n";
-			for (int i = 0; i < c.getNumSlots(); i++) {
-				Slot t = c.getSlot(i);
-				newline += t.getSection()+" ";
-				newline += "Slot " + i + ":" + t + "\n";
-			}
-			textAreaConsole.setText(textAreaConsole.getText() + "\n" + newline);
-    		}
-		}
-        list();   	
+    	showSearchInfo();
     }
     
     private boolean allFilterTrue(Course c) {
@@ -358,6 +339,7 @@ public class Controller {
     		    result = !noSaturday;
     	}
     	/*
+    	 * Please uncomment this code after c.isCommerCore implemented
     	 if(commonCore.isSelected()) {
             if(result)
     		    result = c.isCommonCore();
@@ -450,9 +432,21 @@ public class Controller {
     		textAreaConsole.setText(textAreaConsole.getText() + sectionEnrolled.get(i).getCourse().split(" ")[0] + sectionEnrolled.get(i).getCourse().split(" ")[1] + sectionEnrolled.get(i).getCode().split(" ")[0] + ";");
     	}
     }
+    
+  //Check whether a section is enrolled
+    public void searchSectionEnrolled(Section s) {
+		for(int i = 0; i < sectionEnrolled.size(); i++) {    	
+			if(sectionEnrolled.get(i).sectionEquals(s)) {
+				s.setEnrolled();
+			    sectionEnrolled.add(s);
+			    sectionEnrolled.remove(i);
+			    break;
+			}
+		}
+    }
     //End of Task3
     
-    //Task 4
+    //Task4
     private List<Label> labels= new Vector<Label>();
     
     private int numLabels = 0;
@@ -462,22 +456,6 @@ public class Controller {
     private boolean colorUsed[] = {false, false,false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
     
     public void changeTimetable(Section sec) {
-    	/*
-   		AnchorPane ap = (AnchorPane)tabTimetable.getContent();
-		Label randomLabel = new Label("COMP1022\nL1");
-		Random r = new Random();
-		double start = (r.nextInt(10) + 1) * 20 + 40;
-
-		randomLabel.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-		randomLabel.setLayoutX(600.0);
-		randomLabel.setLayoutY(start);
-		randomLabel.setMinWidth(100.0);
-		randomLabel.setMaxWidth(100.0);
-		randomLabel.setMinHeight(60);
-		randomLabel.setMaxHeight(60);
-
-		ap.getChildren().addAll(randomLabel);
-		*/
     	if(sec.getNumSlots() > 0) {
     		AnchorPane ap = (AnchorPane)tabTimetable.getContent();
     		if(sectionEnrolled.contains(sec)) {

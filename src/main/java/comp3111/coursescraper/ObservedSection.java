@@ -12,7 +12,7 @@ public class ObservedSection {
 	private Section section;
 	
 	public ObservedSection (Section s) {
-		String courseTitle = s.getCourse();
+		String courseTitle=s.getCourse();
 		courseCode = new SimpleStringProperty(courseTitle.split(" ")[0]+courseTitle.split(" ")[1]);
 		sectionCode = new SimpleStringProperty(s.getCode());
 		courseName = new SimpleStringProperty(courseTitle.split(" ",3)[2]);
@@ -63,7 +63,7 @@ public class ObservedSection {
     public void setCheckBox(CheckBox cb) {
     	checkBox = cb;
     }
-
+    
     public Section getSection() {
     	return section;
     }
