@@ -15,6 +15,9 @@ public class Course {
 	private Section [] sections;
 	private int numSections;
 	
+	/**
+	 * Course default constructor
+	 */
 	public Course() {
 		slots = new Slot[DEFAULT_MAX_SLOT];
 		for (int i = 0; i < DEFAULT_MAX_SLOT; i++) slots[i] = null;
@@ -24,11 +27,21 @@ public class Course {
 		numSections = 0;
 	}
 	
+	/**
+	 * 
+	 * @param s slot to add
+	 */
 	public void addSlot(Slot s) {
 		if (numSlots >= DEFAULT_MAX_SLOT)
 			return;
 		slots[numSlots++] = s.clone();
 	}
+	
+	/**
+	 * 
+	 * @param i index of the slot we want
+	 * @return the slot
+	 */
 	public Slot getSlot(int i) {
 		if (i >= 0 && i < numSlots)
 			return slots[i];
@@ -91,26 +104,47 @@ public class Course {
 		this.numSlots = numSlots;
 	}
 	
+	/**
+	 * 
+	 * @param s the section want to add
+	 */
 	public void addSection(Section s) {
 		if (numSections >= DEFAULT_MAX_SECTION)
 			return;
 		sections[numSections++] = s.clone();
 	}
 	
+	/**
+	 * 
+	 * @param i the index of section we want to get
+	 * @return the section
+	 */
 	public Section getSection(int i) {
 		if (i >= 0 && i < numSections)
 			return sections[i];
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @param s the section we want to change the last section to
+	 */
 	public void changeSection(Section s) {
 		sections[numSections-1] = s;
 	}
 	
+	/**
+	 * 
+	 * @return the number of sections
+	 */
 	public int getNumSections() {
 		return numSections;
 	}
 
+	/**
+	 * 
+	 * @param n the number of sections to set
+	 */
 	public void setNumSections(int n) {
 		numSections = n;
 	}

@@ -97,7 +97,12 @@ public class Controller {
     void findSfqEnrollCourse() {
 
     }
+    
+    //Task 1
 
+    /**
+     * This search method invokes the search function.
+     */
     @FXML
     void search() { 	
     	v = scraper.scrape(textfieldURL.getText(), textfieldTerm.getText(),textfieldSubject.getText());
@@ -108,6 +113,9 @@ public class Controller {
     		showSearchInfo();
     }
     
+    /**
+     * Scrape the website and display the information.
+     */
     public void showSearchInfo() {
     		filteredCourse = null;
     		filteredCourse = new Vector<Course>();
@@ -455,6 +463,10 @@ public class Controller {
     
     private boolean colorUsed[] = {false, false,false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
     
+    /**
+     * 
+     * @param sec the section to add or delete
+     */
     public void changeTimetable(Section sec) {
     	if(sec.getNumSlots() > 0) {
     		AnchorPane ap = (AnchorPane)tabTimetable.getContent();

@@ -95,10 +95,18 @@ public class Slot {
 		this.day = day;
 	}
 	
+	/**
+	 * 
+	 * @return the section
+	 */
 	public String getSection() {
 		return section;
 	}
 	
+	/**
+	 * 
+	 * @param s the section this slot belongs to
+	 */
 	public void setSection(String s) {
 		this.section = s;
 	}
