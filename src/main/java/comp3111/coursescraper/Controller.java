@@ -236,7 +236,11 @@ public class Controller {
     
     @FXML
     private CheckBox withLabOrTut;
-      
+     
+    
+    /**
+     * manipulate the select all button to fulfill the text change and checkbox status change of the requirement of select or button
+     */
     @FXML
     void selectOrDeselectAll() {
     	CheckBox[] allCheckBox= {am, pm, monday, tuesday, wednesday, thursday, friday, saturday, commonCore, noExclusion, withLabOrTut};
@@ -258,12 +262,20 @@ public class Controller {
     	}
     }
     
+    /**
+     * show the filtered information of course
+     */
     @FXML
     private void filter() {
     	textAreaConsole.clear();
     	showSearchInfo();
     }
     
+    /**
+     * determine whether a course can pass all the required filter
+     * @param c the course to be determined
+     * @return the boolean result of whether the course pass all the filter requirement
+     */
     private boolean allFilterTrue(Course c) {
     	Boolean result = true;
     	if(am.isSelected()) {
@@ -338,13 +350,11 @@ public class Controller {
     		if(result)
     		    result = !noSaturday;
     	}
-    	/*
-    	 * Please uncomment this code after c.isCommerCore implemented
     	 if(commonCore.isSelected()) {
             if(result)
     		    result = c.isCommonCore();
     	}
-    	 */
+    	
     	if(noExclusion.isSelected()) {
     		if(result)
     		    result = c.getExclusion()=="null";
@@ -385,6 +395,11 @@ public class Controller {
     ObservableList<ObservedSection> os;
     Boolean firstTimeList = true;
     
+    /*
+     * to construct the list required
+     * the list information can be updated once search clicked or filter information changed
+     * the enrollment status can be updated once the checkbox status in the list is changed
+     */
     @FXML
     private void list () {
     	s = null;
@@ -413,6 +428,10 @@ public class Controller {
     	
     }
     
+    /**
+     * to change the enroll status of a section
+     * @param sec the section to be updated on the enroll status
+     */
     public void changeEnrollStatus(Section sec) {
     	if(sec.isEnrolled()){
     		sectionEnrolled.remove(sec);
@@ -425,6 +444,9 @@ public class Controller {
     	showEnrolled();
     }
     
+    /**
+     * show the enrollment information on the console
+     */
     public void showEnrolled() {
     	textAreaConsole.setText("The following sections are enrolled:");
     	for (int i = 0; i < sectionEnrolled.size(); i++) {
@@ -432,7 +454,10 @@ public class Controller {
     	}
     }
     
-  //Check whether a section is enrolled
+    /**
+     * to update the section object in the sectionEnrolled list
+     * @param s the section to update
+     */
     public void searchSectionEnrolled(Section s) {
 		for(int i = 0; i < sectionEnrolled.size(); i++) {    	
 			if(sectionEnrolled.get(i).sectionEquals(s)) {

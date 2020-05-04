@@ -1,8 +1,5 @@
 package comp3111.coursescraper;
 
-
-
-
 public class Course {
 	private static final int DEFAULT_MAX_SLOT = 20;
 	private static final int DEFAULT_MAX_SECTION = 20;
@@ -14,6 +11,7 @@ public class Course {
 	private int numSlots;
 	private Section [] sections;
 	private int numSections;
+	private boolean commonCore = false;
 	
 	public Course() {
 		slots = new Slot[DEFAULT_MAX_SLOT];
@@ -115,4 +113,17 @@ public class Course {
 		numSections = n;
 	}
 	
+	/**
+	 * @return whether the course is a common core
+	 */
+	public boolean isCommonCore() {
+		return commonCore;
+	}
+	
+	/**
+	 * @param b the boolean result whether the course is a common core to set
+	 */
+	public void setCommonCore(Boolean b) {
+        commonCore = b;
+	}
 }
