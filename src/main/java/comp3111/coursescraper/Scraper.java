@@ -182,6 +182,7 @@ public class Scraper {
 					if (t.asText().equals("EXCLUSION")) {
 						exclusion = d;
 					}
+				}
 				
 				c.setExclusion((exclusion == null ? "null" : exclusion.asText()));
           
