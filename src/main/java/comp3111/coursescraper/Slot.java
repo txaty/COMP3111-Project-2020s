@@ -95,6 +95,7 @@ public class Slot {
 		this.day = day;
 	}
 	
+
 	/**
 	 * 
 	 * @return the section

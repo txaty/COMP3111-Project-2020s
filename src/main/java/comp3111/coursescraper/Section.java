@@ -181,15 +181,13 @@ public class Section {
 	}
 	
 	/**
-	 * 
-	 * @param s the section to check
-	 * @return whether the two sections are equal or not
+	 * to check whether another section is the same as this one
+	 * @param s the another section to be checked
+	 * @return whether the two sections are the same
 	 */
 	public boolean sectionEquals(Section s) {
 		if(code.equals(s.code) && course.equals(s.course))
 			return true;
 		return false;
 	}
-	
-
 }

@@ -1,8 +1,5 @@
 package comp3111.coursescraper;
 
-
-
-
 public class Course {
 	private static final int DEFAULT_MAX_SLOT = 20;
 	private static final int DEFAULT_MAX_SECTION = 20;
@@ -14,6 +11,9 @@ public class Course {
 	private int numSlots;
 	private Section [] sections;
 	private int numSections;
+
+	private boolean commonCore = false;
+
 	
 	/**
 	 * Course default constructor
@@ -119,12 +119,14 @@ public class Course {
 	 * @param i the index of section we want to get
 	 * @return the section
 	 */
+
 	public Section getSection(int i) {
 		if (i >= 0 && i < numSections)
 			return sections[i];
 		return null;
 	}
 	
+
 	/**
 	 * 
 	 * @param s the section we want to change the last section to
@@ -149,4 +151,19 @@ public class Course {
 		numSections = n;
 	}
 	
+
+	/**
+	 * @return whether the course is a common core
+	 */
+	public boolean isCommonCore() {
+		return commonCore;
+	}
+	
+	/**
+	 * @param b the boolean result whether the course is a common core to set
+	 */
+	public void setCommonCore(Boolean b) {
+        commonCore = b;
+	}
 }
+
