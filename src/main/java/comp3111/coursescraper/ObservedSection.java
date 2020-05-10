@@ -17,6 +17,12 @@ public class ObservedSection {
 	private CheckBox checkBox = new CheckBox();
 	private Section section;
 	
+	
+	/**
+	 * Default Constructor;
+	 */
+	public ObservedSection() {}
+	
 	/**
 	 * @param s the section to be observed
 	 */
