@@ -21,7 +21,7 @@
       <children>
             <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="350.0" prefWidth="719.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab fx:id="tabMain" text="Main">
+                <Tab fx:id="tabMain" onSelectionChanged="#triggerTabsAfterAllSubSearch" text="Main">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="221.0" prefWidth="719.0">
                            <children>
@@ -37,7 +37,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab fx:id="tabStatistic" text="Backend">
+                  <Tab fx:id="tabStatistic" onSelectionChanged="#triggerTabsAfterAllSubSearch" text="Backend">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -51,7 +51,7 @@
                         </AnchorPane>
                     </content>
                   </Tab>
-                <Tab fx:id="tabFilter" text="Filter">
+                <Tab fx:id="tabFilter" onSelectionChanged="#triggerTabsAfterAllSubSearch" text="Filter">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="722.0">
                            <children>
@@ -75,7 +75,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab fx:id="tabList" text="List">
+                  <Tab fx:id="tabList" onSelectionChanged="#triggerTabsAfterAllSubSearch" text="List">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="318.0" prefWidth="719.0">
                            <children>
@@ -135,7 +135,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Button layoutX="73.0" layoutY="29.0" mnemonicParsing="false" onAction="#allSubjectSearch" text="All Subject Search" />
+                              <Button fx:id="allSubSearchButton" layoutX="73.0" layoutY="29.0" mnemonicParsing="false" onAction="#allSubjectSearch" text="All Subject Search" />
                               <ProgressBar fx:id="progressbar" layoutX="316.0" layoutY="33.0" prefHeight="18.0" prefWidth="264.0" progress="0.0" />
                               <Label layoutX="255.0" layoutY="34.0" text="Progress" />
                               <Label layoutX="65.0" layoutY="210.0" text="Total Number of Categories/Code Prefix" />
@@ -147,12 +147,12 @@
                         </AnchorPane>
                     </content>
                   </Tab>
-                  <Tab fx:id="tabSfq" text="SFQ">
+                  <Tab fx:id="tabSfq" onSelectionChanged="#tabSfqCheck" text="SFQ">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="82.0" layoutY="31.0" text="SFQ URL" />
-                              <TextField fx:id="textfieldSfqUrl" layoutX="147.0" layoutY="27.0" prefHeight="25.0" prefWidth="403.0" text="http://sfq.ust.hk/results/eng-f19.html " />
+                              <TextField fx:id="textfieldSfqUrl" layoutX="147.0" layoutY="27.0" prefHeight="25.0" prefWidth="403.0" text="file:\\\\D:\\Desktop\\3111Proj\\SchoolSummaryReport.html  " />
                               <Button fx:id="buttonSfqEnrollCourse" layoutX="147.0" layoutY="64.0" mnemonicParsing="false" onAction="#findSfqEnrollCourse" text="Find SFQ with my enrolled courses" />
                               <Button fx:id="buttonInstructorSfq" layoutX="384.0" layoutY="64.0" mnemonicParsing="false" onAction="#findInstructorSfq" text="List instructors' average SFQ" />
                               <Label layoutX="42.0" layoutY="132.0" text="You may assume no login is required when you scrape the SFQ page" />

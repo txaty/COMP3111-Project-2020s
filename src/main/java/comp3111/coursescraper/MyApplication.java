@@ -5,11 +5,12 @@ package comp3111.coursescraper;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
-
+import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 
 /**
  * @author kevinw
@@ -39,8 +40,8 @@ import javafx.scene.Scene;
 public class MyApplication extends Application {
 
     private static final String UI_FILE = "/ui.fxml";  //It is very important that you put the file under folder src/main/resources/
-	
-	/* 
+    
+    /* 
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
 	 * 
 	 * This function will be called by the framework shortly after the program started. You are not required to touch any part of this.
@@ -52,7 +53,7 @@ public class MyApplication extends Application {
    		VBox root = (VBox) loader.load();
    		Scene scene =  new Scene(root);
    		stage.setScene(scene);
-   		stage.setTitle("Team T-30: Course Scraper");
+   		stage.setTitle("Team T-30: Course Scraper");   		
    		stage.show();
 	}
 

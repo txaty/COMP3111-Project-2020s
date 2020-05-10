@@ -12,7 +12,7 @@ public class Slot {
 	private LocalTime end;
 	private String venue;
 	private String section;
-	public static final String DAYS[] = {"Mo", "Tu", "We", "Th", "Fr", "Sa"};
+	public static final String DAYS[] = {"Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"};
 	public static final Map<String, Integer> DAYS_MAP = new HashMap<String, Integer>();
 	static {
 		for (int i = 0; i < DAYS.length; i++)

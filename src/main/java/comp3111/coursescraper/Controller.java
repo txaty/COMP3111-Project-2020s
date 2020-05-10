@@ -22,9 +22,11 @@ import javafx.scene.layout.CornerRadii;
 import javafx.geometry.Insets;
 import javafx.scene.paint.Color;
 
-import java.util.Random;
 import java.util.Vector;
 import java.util.List;
+
+import javafx.application.Platform;
+
 public class Controller {
 
     @FXML
@@ -67,7 +69,7 @@ public class Controller {
     private TextField textfieldSfqUrl;
 
     @FXML
-    private Button buttonSfqEnrollCourse;
+    private  Button buttonSfqEnrollCourse;
 
     @FXML
     private Button buttonInstructorSfq;
@@ -77,25 +79,146 @@ public class Controller {
     
     private Scraper scraper = new Scraper();
     
-	  private List<Course> v = new Vector<Course>();
+    private List<Course> v = new Vector<Course>();
 	
-	  private List<Course> filteredCourse = new Vector<Course>();
+    private List<Course> filteredCourse = new Vector<Course>();
 	
-	  private List<Section> sectionEnrolled = new Vector<Section>();
-        
+    private List<Section> sectionEnrolled = new Vector<Section>();
+    
+    // Task 5 parameters
+    private List<String> sl = new Vector<String>();
+    
+    private boolean allSubSearchActivated = false;
+    
+    private int ALL_SUBJECT_COUNT = 0;
+
+    private int TOTAL_NUMBER_OF_COURSES = 0;
+    
+    private double PROGRESS_INDEX = 0;
+    
+    private Thread allSubSearchThread;
+    
+    private int threadCounter = 0;
+    
+    private boolean isAllSearched = false;
+    
+    @FXML
+    private Button allSubSearchButton;
+    
+    // Task 6 parameters
+    private Sfq sfqHandler = new Sfq(); 
+    
+    // Task 5
     @FXML
     void allSubjectSearch() {
-    	
-    }
+    	if (!allSubSearchActivated) {
+	    	sl = scraper.scrape(textfieldURL.getText(), textfieldTerm.getText());
+	    	if (sl == null) {
+	    		allSubSearchActivated = false;
+	    		System.out.println("Error Occurred");
+	    		return;
+	    	}
+	    	ALL_SUBJECT_COUNT = sl.size();
+    		textAreaConsole.setText("Total Number of Categories/Code Prefix: " +  ALL_SUBJECT_COUNT);
+		    allSubSearchActivated = true;
+    	} else {
+    		allSubSearchActivated = false;
+    		TOTAL_NUMBER_OF_COURSES = 0;
+    		v.clear();
+    		PROGRESS_INDEX = 0;
+    		allSubSearchButton.setDisable(true);
+    		// long running operation runs on different thread
+    	    allSubSearchThread = new Thread(new Runnable() {
+    	        @Override
+    	        public void run() {
+    	            Runnable updater = new Runnable() {
+    	                @SuppressWarnings("deprecation")
+    	                @Override
+    	                public void run() {
+    	                	if (threadCounter < sl.size()) {
+    	                		String subStr = sl.get(threadCounter);
+    	                		List<Course> courseOfSubject = scraper.scrape(textfieldURL.getText(), textfieldTerm.getText(), subStr);
+    	            			if (courseOfSubject != null) {
+    	            				if (courseOfSubject.size() != 0) {
+    	        	    				v.addAll(courseOfSubject);
+    	        	    				TOTAL_NUMBER_OF_COURSES += courseOfSubject.size();
+    	        	    				System.out.println(subStr + " is done");
+    	    	            			PROGRESS_INDEX = 1.0 * (threadCounter + 1) / ALL_SUBJECT_COUNT;
+    	            				}
+    	            			}
+    	                	} else {
+    	                		textAreaConsole.setText("Total Number of Courses fetched: " + TOTAL_NUMBER_OF_COURSES);
+    	                		allSubSearchButton.setDisable(false);
+    	                		buttonSfqEnrollCourse.setDisable(false);
+    	                		isAllSearched = true;
+    	                		allSubSearchThread.stop();
+    	                	}
+    	                	progressbar.setProgress(PROGRESS_INDEX);
+    	                	threadCounter++;
+    	                }
+    	            };
 
+    	            while (true) {
+    	                try {
+    	                    Thread.sleep(300);
+    	                } catch (InterruptedException ex) {
+    	                }
+
+    	                // UI update is run on the Application thread
+    	                Platform.runLater(updater);
+    	            }
+    	        }
+
+    	    });
+    	    allSubSearchThread.start();
+    	}
+    }
+    
+    @FXML
+    void triggerTabsAfterAllSubSearch() {
+    	if (isAllSearched) {
+    		showSearchInfo(false);
+    		isAllSearched = false;
+    	}
+    }
+    // End of Task 5
+    
+    // Task 6
+    @FXML
+    void tabSfqCheck() {
+    	if (v.size() == 0)
+    		buttonSfqEnrollCourse.setDisable(true);
+    }
+    
     @FXML
     void findInstructorSfq() {
     	buttonInstructorSfq.setDisable(true);
+    	if (sfqHandler.getCourseListSize() == 0 && 
+    			sfqHandler.getInstructorListSize() == 0) {
+    		sfqHandler = scraper.scrapeSfq(textfieldSfqUrl.getText());
+    	}
+    	textAreaConsole.setText(sfqHandler.getInstructorSfq());
     }
 
     @FXML
     void findSfqEnrollCourse() {
-
+    	buttonSfqEnrollCourse.setDisable(true);
+    	if (sfqHandler.getCourseListSize() == 0 && 
+    			sfqHandler.getInstructorListSize() == 0) {
+    		sfqHandler = scraper.scrapeSfq(textfieldSfqUrl.getText());
+    	}
+    	String consoleText = ""; 
+    	for (Section section: sectionEnrolled) {
+    		String courseCode = section.getCourse().split("-")[0].trim();
+    		double[] result = sfqHandler.findCourseSfq(courseCode);
+    		if (result != null) {
+    		consoleText = consoleText + courseCode + "\n"
+    				+ "Mean: " + String.format("%.1f", result[0]) + "\n"
+    				+ "SD:   " + String.format("%.1f", result[1]) + "\n\n";
+    		}
+    	}
+    	buttonSfqEnrollCourse.setDisable(false);
+    	textAreaConsole.setText(consoleText);
     }
     
     //Task 1
@@ -105,15 +228,18 @@ public class Controller {
      */
     @FXML
     void search() { 	
-    	v = scraper.scrape(textfieldURL.getText(), textfieldTerm.getText(),textfieldSubject.getText());
+    	v = scraper.scrape(textfieldURL.getText(), textfieldTerm.getText(), textfieldSubject.getText());
     	if(v == null) {
     		textAreaConsole.setText("Please enter a valid URL:)");
     	}
     	else 
-    		showSearchInfo();
+    	{
+    		buttonSfqEnrollCourse.setDisable(false);
+    		showSearchInfo(true);
+    	}	
     }
     
-    public void showSearchInfo() {
+    public void showSearchInfo(boolean allSubSearch) {
     		filteredCourse = null;
     		filteredCourse = new Vector<Course>();
     		for(Course c: v) {
@@ -125,7 +251,21 @@ public class Controller {
     		for (Course c : filteredCourse) {
     			totalSec += c.getNumSections();   			
     		}
-    		textAreaConsole.setText("Total Number of difference sections in this search: "+totalSec);
+    		if (allSubSearch) {
+    			sl = scraper.scrape(textfieldURL.getText(), textfieldTerm.getText());
+    	    	if (sl == null) {
+    	    		allSubSearchActivated = false;
+    	    		System.out.println("Error Occurred");
+    	    		return;
+    	    	}
+    	    	ALL_SUBJECT_COUNT = sl.size();
+        		System.out.println(sl.size());
+        		textAreaConsole.setText("Total Number of Categories/Code Prefix: " +  ALL_SUBJECT_COUNT + " (for All Subject Search)\n");
+    		    allSubSearchActivated = true;
+    		} else {
+    			textAreaConsole.setText("");
+    		}
+    		textAreaConsole.setText(textAreaConsole.getText()+ "Total Number of difference sections in this search: "+totalSec);
     		textAreaConsole.setText(textAreaConsole.getText()+ "\n" + "Total Number of Courses in this search: " + v.size());
     		textAreaConsole.setText(textAreaConsole.getText()+ "\n" + "Instructors who has teaching assignment this term but does not need to teach at Tu 3:10pm: ");
     		String [] instructorList = new String[3*totalSec];
@@ -273,7 +413,7 @@ public class Controller {
     @FXML
     private void filter() {
     	textAreaConsole.clear();
-    	showSearchInfo();
+    	showSearchInfo(false);
     }
     
 
