@@ -12,13 +12,12 @@ public class Slot {
 	private LocalTime end;
 	private String venue;
 	private String section;
-	public static final String DAYS[] = {"Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"};
+	public static final String DAYS[] = { "Mo", "Tu", "We", "Th", "Fr", "Sa" };
 	public static final Map<String, Integer> DAYS_MAP = new HashMap<String, Integer>();
 	static {
 		for (int i = 0; i < DAYS.length; i++)
 			DAYS_MAP.put(DAYS[i], i);
 	}
-	
 
 	@Override
 	public Slot clone() {
@@ -30,51 +29,62 @@ public class Slot {
 		s.section = this.section;
 		return s;
 	}
+
 	public String toString() {
 		return DAYS[day] + start.toString() + "-" + end.toString() + ":" + venue;
 	}
+
 	public int getStartHour() {
 		return start.getHour();
 	}
+
 	public int getStartMinute() {
 		return start.getMinute();
 	}
+
 	public int getEndHour() {
 		return end.getHour();
 	}
+
 	public int getEndMinute() {
 		return end.getMinute();
 	}
+
 	/**
 	 * @return the start
 	 */
 	public LocalTime getStart() {
 		return start;
 	}
+
 	/**
 	 * @param start the start to set
 	 */
 	public void setStart(String start) {
 		this.start = LocalTime.parse(start, DateTimeFormatter.ofPattern("hh:mma", Locale.US));
 	}
+
 	/**
 	 * @return the end
 	 */
 	public LocalTime getEnd() {
 		return end;
 	}
+
 	/**
 	 * @param end the end to set
 	 */
 	public void setEnd(String end) {
 		this.end = LocalTime.parse(end, DateTimeFormatter.ofPattern("hh:mma", Locale.US));
 	}
+
 	/**
 	 * @return the venue
 	 */
 	public String getVenue() {
 		return venue;
 	}
+
 	/**
 	 * @param venue the venue to set
 	 */
@@ -88,13 +98,13 @@ public class Slot {
 	public int getDay() {
 		return day;
 	}
+
 	/**
 	 * @param day the day to set
 	 */
 	public void setDay(int day) {
 		this.day = day;
 	}
-	
 
 	/**
 	 * 
@@ -103,7 +113,7 @@ public class Slot {
 	public String getSection() {
 		return section;
 	}
-	
+
 	/**
 	 * 
 	 * @param s the section this slot belongs to
