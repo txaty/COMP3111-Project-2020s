@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="bin/main" path="src/main/java">
+	<classpathentry kind="output" path="bin/default"/>
+	<classpathentry output="bin/main" kind="src" path="src/main/java">
 		<attributes>
 			<attribute name="gradle_scope" value="main"/>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="bin/main" path="src/main/resources">
+	<classpathentry output="bin/main" kind="src" path="src/main/resources">
 		<attributes>
 			<attribute name="gradle_scope" value="main"/>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="bin/test" path="src/test/java">
+	<classpathentry output="bin/test" kind="src" path="src/test/java">
 		<attributes>
 			<attribute name="gradle_scope" value="test"/>
 			<attribute name="gradle_used_by_scope" value="test"/>
@@ -20,6 +21,194 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-13/"/>
-	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
-	<classpathentry kind="output" path="bin/default"/>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/net.sourceforge.htmlunit/htmlunit/2.31/3bccefc012cf08dbb89e86d9cf92b1787921b2c5/htmlunit-2.31-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/net.sourceforge.htmlunit/htmlunit/2.31/c40a2fb813533fa8a0e1531c8c47b9ed6b54178d/htmlunit-2.31.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-fxml/13.0.2/4646bc06c503dd81d031dc47c65b911bbe5a7e95/javafx-fxml-13.0.2-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-fxml/13.0.2/f2a1a79ed633daebccbe2d768626a5c214cb4576/javafx-fxml-13.0.2-win.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-controls/13.0.2/ea87cbdcde4ce4f0cc64a9ff65c806339beae72e/javafx-controls-13.0.2-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-controls/13.0.2/576dbb60fdbc5d358844d2a1f1b214690f2a61bc/javafx-controls-13.0.2-win.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-controls/13.0.2/ea87cbdcde4ce4f0cc64a9ff65c806339beae72e/javafx-controls-13.0.2-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-controls/13.0.2/d3f2c84356671d09d413466a63aec9422f7ead5b/javafx-controls-13.0.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/13.0.2/f58b4841344ecaeb7d8cc6b91fc8cf011eecc99d/javafx-graphics-13.0.2-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/13.0.2/d1ac58a077a72518a0e0b254465a104c828249a3/javafx-graphics-13.0.2-win.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/13.0.2/f58b4841344ecaeb7d8cc6b91fc8cf011eecc99d/javafx-graphics-13.0.2-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/13.0.2/88d1712b40343c68e7d9e62261106d6f99f595f9/javafx-graphics-13.0.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-base/13.0.2/c7dbe774785de58c0c3839c88078b89f493a12fc/javafx-base-13.0.2-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-base/13.0.2/ecf0e5d615eb4729acfb0151f9bad8f4dcc068f8/javafx-base-13.0.2-win.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-base/13.0.2/c7dbe774785de58c0c3839c88078b89f493a12fc/javafx-base-13.0.2-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-base/13.0.2/e510b506205ddbf2ec57c6345629ffa81c446f5a/javafx-base-13.0.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/xalan/xalan/2.7.2/fe9c3d37a49238fac9d4d6c4f5bbd8c334da787a/xalan-2.7.2-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/xalan/xalan/2.7.2/d55d3f02a56ec4c25695fe67e1334ff8c2ecea23/xalan-2.7.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-text/1.3/9c51853f855aca4ea31785f30385e980a58eaf4b/commons-text-1.3-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-text/1.3/9abf61708a66ab5e55f6169a200dbfc584b546d9/commons-text-1.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.7/e7e36219edde1c66c93495a75490d8f526c377cb/commons-lang3-3.7-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.7/557edd918fd41f9260963583ebf5a61a43a6b423/commons-lang3-3.7.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.5.5/71b1d0751e1beb9f815f26f2f23f304b162f70b1/httpmime-4.5.5-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpmime/4.5.5/8281b24b8a493374cd2aa8a90c4156588f7dbcb6/httpmime-4.5.5.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/net.sourceforge.htmlunit/htmlunit-core-js/2.31/b6f932668c8d98420e968eee47c62ca6381f202f/htmlunit-core-js-2.31-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/net.sourceforge.htmlunit/htmlunit-core-js/2.31/1a6ebc693993fe7aaef15d0ffaf4e96fb4b9b256/htmlunit-core-js-2.31.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/net.sourceforge.htmlunit/neko-htmlunit/2.31/79d7af10fe00e1cdf189f8901ef31b809ac0ef77/neko-htmlunit-2.31-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/net.sourceforge.htmlunit/neko-htmlunit/2.31/f63f9dd24ab7ccb543323dd7a2ddbe4847185318/neko-htmlunit-2.31.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/net.sourceforge.htmlunit/htmlunit-cssparser/1.0.0/9f74da2f0b3ddf6342229ad4fb1c22e6b77e4c3a/htmlunit-cssparser-1.0.0-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/net.sourceforge.htmlunit/htmlunit-cssparser/1.0.0/fdebae3d72981654370c38df1d9969d056bd15e6/htmlunit-cssparser-1.0.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.6/2566800dc841d9d2c5a0d34d807e45d4107dbbdf/commons-io-2.6-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.6/815893df5f31da2ece4040fe0a12fd44b577afaf/commons-io-2.6.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.5.5/9fd59f6f22326a4241f9524fdfd66a1f34824054/httpclient-4.5.5-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.5.5/1603dfd56ebcd583ccdf337b6c3984ac55d89e58/httpclient-4.5.5.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/ecf26c7507d67782a3bbd148d170b31dfad001aa/commons-logging-1.2-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/commons-net/commons-net/3.6/961dc27eabbe71bf32478baffe0e1be915ce7689/commons-net-3.6-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/commons-net/commons-net/3.6/b71de00508dcb078d2b24b5fa7e538636de9b3da/commons-net-3.6.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-client/9.4.10.v20180503/350ce0dbf729d664033cc7ffb44f121d61faa723/websocket-client-9.4.10.v20180503-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-client/9.4.10.v20180503/8d1d23ba8967b89068a103598164357d262d2df/websocket-client-9.4.10.v20180503.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/xalan/serializer/2.7.2/fe9c3d37a49238fac9d4d6c4f5bbd8c334da787a/serializer-2.7.2-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/xalan/serializer/2.7.2/24247f3bb052ee068971393bdb83e04512bb1c3c/serializer-2.7.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/xerces/xercesImpl/2.11.0/af86e59459a503adec5e9b47426dd9fa2ac5f1f6/xercesImpl-2.11.0-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/xerces/xercesImpl/2.11.0/9bb329db1cfc4e22462c9d6b43a8432f5850e92c/xercesImpl-2.11.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-client/9.4.10.v20180503/3a54254ec02262fd6501ec1d1de461a33c4acf9b/jetty-client-9.4.10.v20180503-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-client/9.4.10.v20180503/61e9f85674b1c9a02f57c8ebb6a67f7694f99c8d/jetty-client-9.4.10.v20180503.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-xml/9.4.10.v20180503/2e6d1f059b3649b157bf2cbc989d1313bd9f6f27/jetty-xml-9.4.10.v20180503-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-xml/9.4.10.v20180503/169aa1fa1c12c1a99fa2e595a19ed35942cdef40/jetty-xml-9.4.10.v20180503.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-common/9.4.10.v20180503/b898bf7e5805fcc764b453bd3dd43b05666220a/websocket-common-9.4.10.v20180503-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-common/9.4.10.v20180503/e1b98c787e5a54e7704a461b48456cb829c3bef/websocket-common-9.4.10.v20180503.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-http/9.4.10.v20180503/2fcaee765615d5c2c0d22873fe026cf957e9c260/jetty-http-9.4.10.v20180503-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-http/9.4.10.v20180503/4f6126ef8e35b1dccff350b8615132e216514d96/jetty-http-9.4.10.v20180503.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-io/9.4.10.v20180503/2d19e4e46dd774461dea19e933f078e1ada56190/jetty-io-9.4.10.v20180503-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-io/9.4.10.v20180503/b83679b5b91e8b8d739fa5449aa855277015b9e7/jetty-io-9.4.10.v20180503.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-util/9.4.10.v20180503/f0f9b511b207faebf68dd6175a64dbf17c577973/jetty-util-9.4.10.v20180503-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-util/9.4.10.v20180503/fd39d85f0af362d1202cb323e3e10788beaf894/jetty-util-9.4.10.v20180503.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.4.9/5808b4637c385d939e901eee3dc5f1121fc73a3b/httpcore-4.4.9-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.4.9/a86ce739e5a7175b4b234c290a00a5fdb80957a0/httpcore-4.4.9.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.10/11fb3d88ae7e3b757d70237064210ceb954a5a04/commons-codec-1.10-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.10/4b95f4897fa13f2cd904aee711aeafc0c5295cd8/commons-codec-1.10.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/xml-apis/xml-apis/1.4.01/5502da0c4c0a7916a604356ef19394ccfa30cd4b/xml-apis-1.4.01-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/xml-apis/xml-apis/1.4.01/3789d9fada2d3d458c4ba2de349d48780f381ee3/xml-apis-1.4.01.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-api/9.4.10.v20180503/436190e543671703244afcf417141c4f4b940f38/websocket-api-9.4.10.v20180503-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.websocket/websocket-api/9.4.10.v20180503/9ce644e8b05bb5fab96c7f3ac092ec9c24af0de9/websocket-api-9.4.10.v20180503.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.testfx/testfx-junit/4.0.15-alpha/77f07f7c25d09ba6323251abc82d162ff03d0b0c/testfx-junit-4.0.15-alpha-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.testfx/testfx-junit/4.0.15-alpha/871ad24f082dcae470c6ab08dd0e7729bb75529a/testfx-junit-4.0.15-alpha.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/a6c32b40bf3d76eca54e3c601e5d1470c86fcdfa/junit-4.12-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.testfx/testfx-core/4.0.15-alpha/fe5d254a41ffb1498c5929d89900bd69747a4451/testfx-core-4.0.15-alpha-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.testfx/testfx-core/4.0.15-alpha/c4119841a3b899163fde6e610acb67f71ff28b51/testfx-core-4.0.15-alpha.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b/hamcrest-core-1.3-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.assertj/assertj-core/3.11.1/55362d8f04018b1140c5a370057bf8cd4a63c3de/assertj-core-3.11.1-sources.jar" kind="lib" path="C:/Users/tianx/.gradle/caches/modules-2/files-2.1/org.assertj/assertj-core/3.11.1/fdac3217b804d6900fa3650f17b5cb48e620b140/assertj-core-3.11.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
 </classpath>

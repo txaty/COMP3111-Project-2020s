@@ -110,6 +110,13 @@ public class Controller {
 
 	/*----------Task 5----------*/
 	/**
+	 *  Fetch the subject number after all subject search
+	 * @return All Subject Count
+	 */
+	public int getNumSubjects() {
+		return ALL_SUBJECT_COUNT;
+	}
+	/**
 	 *  Handle the task of all subject search.
 	 *  When All Subject Search is clicked, show Total Number of Categories/Code Prefix.
 	 *  When All Subject Search is clicked again, show Total Number of Courses fetched.
@@ -131,6 +138,7 @@ public class Controller {
 			TOTAL_NUMBER_OF_COURSES = 0;
 			v.clear();
 			PROGRESS_INDEX = 0;
+			threadCounter = 0;
 			allSubSearchButton.setDisable(true);
 			allSubSearchThread = new Thread(new Runnable() {
 				@Override
@@ -164,7 +172,7 @@ public class Controller {
 					};
 					while (true) {
 						try {
-							Thread.sleep(300);
+							Thread.sleep(500);
 						} catch (InterruptedException ex) {
 						}
 						Platform.runLater(updater);
@@ -204,10 +212,15 @@ public class Controller {
 	@FXML
 	void findInstructorSfq() {
 		buttonInstructorSfq.setDisable(true);
-		if (sfqHandler.getCourseListSize() == 0 && sfqHandler.getInstructorListSize() == 0) {
+		if ((sfqHandler != null && sfqHandler.getCourseListSize() == 0 && sfqHandler.getInstructorListSize() == 0) ||
+				sfqHandler == null) {
 			sfqHandler = scraper.scrapeSfq(textfieldSfqUrl.getText());
 		}
-		textAreaConsole.setText(sfqHandler.getInstructorSfq());
+		if (sfqHandler != null)
+			textAreaConsole.setText(sfqHandler.getInstructorSfq());
+		else
+			textAreaConsole.setText("Please input a valid URL");
+		buttonInstructorSfq.setDisable(false);
 	}
 
 	/**
@@ -216,20 +229,28 @@ public class Controller {
 	@FXML
 	void findSfqEnrollCourse() {
 		buttonSfqEnrollCourse.setDisable(true);
-		if (sfqHandler.getCourseListSize() == 0 && sfqHandler.getInstructorListSize() == 0) {
+		if ((sfqHandler != null && sfqHandler.getCourseListSize() == 0 && sfqHandler.getInstructorListSize() == 0) ||
+				sfqHandler == null) {
 			sfqHandler = scraper.scrapeSfq(textfieldSfqUrl.getText());
-		}
-		String consoleText = "";
-		for (Section section : sectionEnrolled) {
-			String courseCode = section.getCourse().split("-")[0].trim();
-			double[] result = sfqHandler.findCourseSfq(courseCode);
-			if (result != null) {
-				consoleText = consoleText + courseCode + "\n" + "Mean: " + String.format("%.1f", result[0]) + "\n"
-						+ "SD:   " + String.format("%.1f", result[1]) + "\n\n";
+			if (sfqHandler == null) {
+				textAreaConsole.setText("Please input a valid URL");
+				buttonSfqEnrollCourse.setDisable(false);
+				return;
 			}
 		}
-		buttonSfqEnrollCourse.setDisable(false);
-		textAreaConsole.setText(consoleText);
+		if (sfqHandler != null) {
+			String consoleText = "";
+			for (Section section : sectionEnrolled) {
+				String courseCode = section.getCourse().split("-")[0].trim();
+				double[] result = sfqHandler.findCourseSfq(courseCode);
+				if (result != null) {
+					consoleText = consoleText + courseCode + "\n" + "Mean: " + String.format("%.1f", result[0]) + "\n"
+							+ "SD:   " + String.format("%.1f", result[1]) + "\n\n";
+				}
+			}
+			buttonSfqEnrollCourse.setDisable(false);
+			textAreaConsole.setText(consoleText);
+		}
 	}
 	/*----------End of Task 6----------*/
 

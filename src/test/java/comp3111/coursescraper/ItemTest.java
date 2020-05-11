@@ -1,17 +1,27 @@
+package comp3111.coursescraper;
+
 import org.junit.Test;
+import org.testfx.assertions.api.Assertions;
+import org.testfx.framework.junit.ApplicationTest;
 
 import comp3111.coursescraper.Course;
 import comp3111.coursescraper.Section;
 import comp3111.coursescraper.ObservedSection;
 import comp3111.coursescraper.Slot;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
+import javafx.fxml.FXML;
+import javafx.scene.Scene;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Locale;
+
 
 public class ItemTest {
+	
+	private Scene s;
 	
 	@Test
 	public void testGetStartHour() {
@@ -235,34 +245,43 @@ public class ItemTest {
 		Section sec = new Section();
 		assertEquals(sec.getSlot(-1), null);
 	}
-	
-	Course c = new Course();
-	//ObservedSection os = new ObservedSection();
+
+	@Test
+	public void testSlotToString() {
+		Slot s = new Slot();
+		s.setDay(0);
+		s.setStart("10:30AM");
+		s.setEnd("11:50AM");
+		s.setVenue("LT");
+		assertEquals(s.toString(), "Mo10:30-11:50:LT");
+	}
 	
 	@Test
-	public void testOSConstructor() {
-		Section sec = new Section();
-		sec.setCode("L1(1234)");
-		sec.setCourse("COMP 3111 Software Engineering");
-		sec.setInstructors(new String[] {"Kenneth Leung"});
-		sec.setNumInstructors(1);
-		sec.setEnrolled();
-		ObservedSection nos = new ObservedSection(sec);
-		assertEquals(nos.getCourseCode(),"COMP3111");
-		assertEquals(nos.getCourseName(),"Software Engineering");
-		assertEquals(nos.getInstructors(),"Kenneth Leung");
-		assertEquals(nos.getSectionCode(),"L1(1234)");
-		assertTrue(nos.getCheckBox().isSelected());
+	public void testSlotGetStart() {
+		LocalTime lt = LocalTime.parse("10:00AM", DateTimeFormatter.ofPattern("hh:mma", Locale.US));
+		Slot s = new Slot();
+		s.setStart("10:00AM");
+		assertEquals(s.getStart(), lt);
+	}
+	
+	@Test
+	public void testSlotGetEnd() {
+		LocalTime lt = LocalTime.parse("10:00AM", DateTimeFormatter.ofPattern("hh:mma", Locale.US));
+		Slot s = new Slot();
+		s.setEnd("10:00AM");
+		assertEquals(s.getEnd(), lt);
 	}
 	
 	@Test
 	public void testSetTitle() {
+		Course c = new Course();
      	c.setTitle("ABCDE");
 		assertEquals(c.getTitle(), "ABCDE");
 	}
 
 	@Test
 	public void testCourseAddSlot() {
+		Course c = new Course();
 		c.setNumSlots(0);
 		Slot s1 = new Slot();
 		Slot s2 = new Slot();
@@ -273,30 +292,63 @@ public class ItemTest {
 	
 	@Test
 	public void testCourseAddSlotFull() {
+		Course c = new Course();
 		c.setNumSlots(20);
 		c.addSlot(new Slot());
 		assertEquals(c.getNumSlots(), 20);
 	}
 	
 	@Test
+	public void testCourseGetSlot1() {
+		Course c = new Course();
+		Slot s = new Slot();
+		s.setDay(0);
+		c.addSlot(s);
+		assertEquals(c.getSlot(0).getDay(), 0);
+	}
+	
+	@Test
+	public void testCourseGetSlot2() {
+		Course c = new Course();
+		Slot s = new Slot();
+		s.setDay(0);
+		c.addSlot(s);
+		assertEquals(c.getSlot(1), null);
+	}
+	
+	@Test
+	public void testCourseGetSlot3() {
+		Course c = new Course();
+		Slot s = new Slot();
+		s.setDay(0);
+		c.addSlot(s);
+		assertEquals(c.getSlot(-1), null);
+	}
+	
+	@Test
 	public void testSetDescription() {
+		Course c = new Course();
 		c.setDescription("interesting");
 		assertEquals(c.getDescription(), "interesting");
 	}
 	
 	@Test
 	public void testSetExclusion() {
+		Course c = new Course();
 		c.setExclusion("null");
 		assertEquals(c.getExclusion(),"null");
 	}
 	
 	@Test 
 	public void testCourseSetNumSlots() {
+		Course c = new Course();
 		c.setNumSlots(3);
 		assertEquals(c.getNumSlots(),3);
 	}
+	
 	@Test
 	public void testCourseAddSection() {
+		Course c = new Course();
 		c.setNumSections(0);
 		Section s1 = new Section();
 		Section s2 = new Section();
@@ -306,7 +358,34 @@ public class ItemTest {
 	}
 	
 	@Test
+	public void testCourseAddSectionFull() {
+		Course c = new Course();
+		c.setNumSections(20);
+        c.addSection(new Section());
+        assertEquals(c.getNumSections(),20);
+	}
+	
+	@Test
+	public void testCourseGetSection1() {
+		Course c = new Course();
+		Section s = new Section();
+		s.setCode("test");
+		c.addSection(s);
+		assertEquals(c.getSection(-1), null);
+	}
+	
+	@Test
+	public void testCourseGetSection2() {
+		Course c = new Course();
+		Section s = new Section();
+		s.setCode("test");
+		c.addSection(s);
+		assertEquals(c.getSection(2), null);
+	}
+	
+	@Test
 	public void testChangeSection() {
+		Course c = new Course();
 		c = new Course();
 		Section s1 = new Section();
 		Section s2 = new Section();
@@ -319,47 +398,202 @@ public class ItemTest {
 	
 	@Test
 	public void testSetNumSections() {
+		Course c = new Course();
 		c.setNumSections(7);
 		assertEquals(c.getNumSections(),7);
 	}
 	
 	@Test
 	public void testSetCommonCore() {
+		Course c = new Course();
 		assertFalse(c.isCommonCore());
 		c.setCommonCore(true);
 		assertTrue(c.isCommonCore());
 	}
-	/*
+	
+	
+	
+	/*------------Task 5 Test------------*/
+	
+	/*----------End Task 5 Test----------*/
+	
+	/*------------Task 6 Test------------*/
 	@Test
-	public void testOSSetSectionCode() {
-		os.setSectionCode("L2(1235)");
-		assertEquals(os.getSectionCode(),"L2(1235)");
+	public void testAddCourseSfq1() {
+		Sfq sfq = new Sfq();
+		sfq.addCourseSfq("test", 1.1, 2.2, 1);
+		assertTrue(sfq.isScrapedCourse("test"));
 	}
 	
 	@Test
-	public void testOSSetCourseCode() {
-		os.setCourseCode("COMP3511");
-		assertEquals(os.getCourseCode(),"COMP3511");
+	public void testAddCourseSfq2() {
+		Sfq sfq = new Sfq();
+		sfq.addCourseSfq("test", 1.1, 2.2, 1);
+		sfq.addCourseSfq("test", 1.3, 2.2, 1);
+		boolean check = Math.abs(sfq.findCourseSfq("test")[0]-1.2) <= 0.000001;
+		assertTrue(check);
 	}
 	
 	@Test
-	public void testOSSetCourseName() {
-		os.setCourseName("Operating System");
-		assertEquals(os.getCourseName(),"Operating System");
+	public void testAddInstructorSfq1() {
+		Sfq sfq = new Sfq();
+		sfq.addInstructorSfq("test", 1.1, 2.2, 1);
+		assertTrue(sfq.isScrapedInstructor("test"));
 	}
 	
 	@Test
-	public void testOSSetInstructors() {
-		os.setInstructors("Li Bo\nChen Kai");
-		assertEquals(os.getInstructors(), "Li Bo\nChen Kai");
+	public void testAddInstructorSfq2() {
+		Sfq sfq = new Sfq();
+		sfq.addInstructorSfq("test", 1.1, 2.2, 1);
+		sfq.addInstructorSfq("test", 1.3, 2.2, 1);
+		boolean check = Math.abs(sfq.findInstructorSfq("test")[0]-1.2) <= 0.000001;
+		assertTrue(check);
 	}
 	
 	@Test
-	public void testOSSetCheckBox() {
-		os.setCheckBox(new CheckBox());
-		assertFalse(os.getCheckBox().isSelected());
+	public void testFindCourseSfq() {
+		Sfq sfq = new Sfq();
+		assertEquals(sfq.findCourseSfq("test"), null);
 	}
-	*/
+	
+	@Test
+	public void testFindInstructorSfq() {
+		Sfq sfq = new Sfq();
+		assertEquals(sfq.findInstructorSfq("test"), null);
+	}
+	
+	@Test
+	public void testGetCourseMean1() {
+		Sfq sfq = new Sfq();
+		sfq.addCourseSfq("test", 1.1, 2.2, 1);
+		boolean check = Math.abs(sfq.getCourseMean("test1")-0.0) <= 0.000001;
+		assertTrue(check);
+	}
+	
+	@Test
+	public void testGetCourseMean2() {
+		Sfq sfq = new Sfq();
+		sfq.addCourseSfq("test", 1.1, 2.2, 1);
+		boolean check = Math.abs(sfq.getCourseMean("test")-1.1) <= 0.000001;
+		assertTrue(check);
+	}
+	
+	@Test
+	public void testGetInstructorMean1() {
+		Sfq sfq = new Sfq();
+		sfq.addInstructorSfq("test", 1.1, 2.2, 1);
+		boolean check = Math.abs(sfq.getInstructorMean("test1")-0.0) <= 0.000001;
+		assertTrue(check);
+	}
+	
+	@Test
+	public void testGetInstructorMean2() {
+		Sfq sfq = new Sfq();
+		sfq.addInstructorSfq("test", 1.1, 2.2, 1);
+		boolean check = Math.abs(sfq.getInstructorMean("test")-1.1) <= 0.000001;
+		assertTrue(check);
+	}
+	
+	@Test
+	public void testGetCourseSd1() {
+		Sfq sfq = new Sfq();
+		sfq.addCourseSfq("test", 1.1, 2.2, 1);
+		boolean check = Math.abs(sfq.getCourseSd("test1")-0.0) <= 0.000001;
+		assertTrue(check);
+	}
+	
+	@Test
+	public void testGetCourseSd2() {
+		Sfq sfq = new Sfq();
+		sfq.addCourseSfq("test", 1.1, 2.2, 1);
+		boolean check = Math.abs(sfq.getCourseSd("test")-2.2) <= 0.000001;
+		assertTrue(check);
+	}
+	
+	@Test
+	public void testGetInstructorSd1() {
+		Sfq sfq = new Sfq();
+		sfq.addInstructorSfq("test", 1.1, 2.2, 1);
+		boolean check = Math.abs(sfq.getInstructorSd("test1")-0.0) <= 0.000001;
+		assertTrue(check);
+	}
+	
+	@Test
+	public void testGetInstructorSd2() {
+		Sfq sfq = new Sfq();
+		sfq.addInstructorSfq("test", 1.1, 2.2, 1);
+		boolean check = Math.abs(sfq.getInstructorSd("test")-2.2) <= 0.000001;
+		assertTrue(check);
+	}
+	
+	@Test
+	public void testGetCourseListSize() {
+		Sfq sfq = new Sfq();
+		assertEquals(sfq.getCourseListSize(), 0);
+	}
+	
+	@Test
+	public void testGetInstructorListSize() {
+		Sfq sfq = new Sfq();
+		assertEquals(sfq.getInstructorListSize(), 0);
+	}
+	
+	@Test
+	public void testGetInstructorSfq() {
+		Sfq sfq = new Sfq();
+		sfq.addInstructorSfq("test", 1.2, 1.1, 1);
+		assertEquals(sfq.getInstructorSfq(), "test\nMean: 1.2\nSD:   1.1\n\n");
+	}
+	
+	@Test
+	public void testScrape1() {
+		Scraper s = new Scraper();
+		List<Course> c = s.scrape("https://w5.ab.ust.hk/wcq/cgi-bin/", "1910", "COMP");
+		assertEquals(c.size(), 62);
+	}
+	
+	@Test
+	public void testScrape2() {
+		Scraper s = new Scraper();
+		List<Course> c = s.scrape("https://w5.ab.ust.hk/wcq/cgi-bin/", "1910", "MGMT");
+		assertEquals(c.size(), 30);
+	}
+	
+	@Test
+	public void testScrape3() {
+		Scraper s = new Scraper();
+		List<Course> c = s.scrape("https://w5.ab.ust.hk/wcq/cgi-bin/", "1910", "---");
+		assertEquals(c, null);
+	}
+	
+	@Test
+	public void testScrape4() {
+		Scraper s = new Scraper();
+		List<String> c = s.scrape("https://w5.ab.ust.hk/wcq/cgi-bin/", "1910");
+		assertEquals(c.size(), 75);
+	}
+	
+	@Test
+	public void testScrape5() {
+		Scraper s = new Scraper();
+		List<String> c = s.scrape("https://w5.ab.ust.hk/wcq/cgi-bin/", "----");
+		assertEquals(c, null);
+	}
+	
+	@Test
+	public void testScrapeSfq1() {
+		Scraper s = new Scraper();
+		Sfq sfq = s.scrapeSfq("file:\\\\D:\\Desktop\\3111Proj\\SchoolSummaryReport.html  " );
+		assertEquals(sfq.getCourseListSize(), 197);
+	}
+	
+	@Test
+	public void testScrapeSfq2() {
+		Scraper s = new Scraper();
+		Sfq sfq = s.scrapeSfq(" ");	
+		assertEquals(sfq, null);
+	}
+	/*----------End Task 6 Test----------*/
 
 }
 

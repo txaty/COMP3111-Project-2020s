@@ -28,16 +28,6 @@ public class Sfq {
 		int size = 0;
 		
 		/**
-		 *  Default Constructor
-		 */
-		private SfqCourse() {
-			this.code = "";
-			this.mean = 0.0;
-			this.sd = 0.0;
-			this.size = 0;
-		}
-		
-		/**
 		 * Constructor
 		 * 
 		 * @param c course code
@@ -45,7 +35,7 @@ public class Sfq {
 		 * @param s SD of the course SFQ
 		 * @param n number of SFQ counted
 		 */
-		private SfqCourse(String c, double m, double s, int n) {
+		public SfqCourse(String c, double m, double s, int n) {
 			this.code = c;
 			this.mean = m;
 			this.sd = s;
@@ -63,16 +53,6 @@ public class Sfq {
 		double mean = 0;
 		double sd = 0;
 		int size = 0;
-		
-		/**
-		 * Default constructor
-		 */
-		public SfqInstructor() {
-			this.name = "";
-			this.mean = 0.0;
-			this.sd = 0.0;
-			this.size = 0;
-		}
 		
 		/**
 		 * Constructor

@@ -7,6 +7,7 @@
 package comp3111.coursescraper;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 
 public class ObservedSection {
@@ -14,9 +15,20 @@ public class ObservedSection {
 	private SimpleStringProperty sectionCode;
 	private SimpleStringProperty courseName;
 	private SimpleStringProperty instructors;
+	@FXML
 	private CheckBox checkBox = new CheckBox();
 	private Section section;
 
+	/**
+	 * Default Constructor;
+	 */
+	public ObservedSection() {
+		courseCode = new SimpleStringProperty();
+		sectionCode = new SimpleStringProperty();
+		courseName = new SimpleStringProperty();
+		instructors = new SimpleStringProperty();
+	}
+	
 	/**
 	 * @param s the section to be observed
 	 */
