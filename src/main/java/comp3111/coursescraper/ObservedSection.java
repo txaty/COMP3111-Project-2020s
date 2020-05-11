@@ -21,7 +21,12 @@ public class ObservedSection {
 	/**
 	 * Default Constructor;
 	 */
-	public ObservedSection() {}
+	public ObservedSection() {
+		courseCode = new SimpleStringProperty();
+		sectionCode = new SimpleStringProperty();
+		courseName = new SimpleStringProperty();
+		instructors = new SimpleStringProperty();
+	}
 	
 	/**
 	 * @param s the section to be observed
