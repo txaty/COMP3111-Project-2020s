@@ -109,6 +109,11 @@ public class Controller {
 	private Sfq sfqHandler = new Sfq();
 
 	/*----------Task 5----------*/
+	/**
+	 *  Handle the task of all subject search.
+	 *  When All Subject Search is clicked, show Total Number of Categories/Code Prefix.
+	 *  When All Subject Search is clicked again, show Total Number of Courses fetched.
+	 */
 	@FXML
 	void allSubjectSearch() {
 		if (!allSubSearchActivated) {
@@ -171,6 +176,9 @@ public class Controller {
 		}
 	}
 
+	/**
+	 *  Handle the task that tab Filter, List, Backend shall show different result after all subject search
+	 */
 	@FXML
 	void triggerTabsAfterAllSubSearch() {
 		if (isAllSearched) {
@@ -181,12 +189,18 @@ public class Controller {
 	/*----------End of Task 5----------*/
 
 	/*----------Task 6----------*/
+	/**
+	 * Handle the task that Make Find SFQ with my enrolled courses disabled before search or All Subject Search is clicked
+	 */
 	@FXML
 	void tabSfqCheck() {
 		if (v.size() == 0)
 			buttonSfqEnrollCourse.setDisable(true);
 	}
-
+	
+	/**
+	 * List the instructors' SFQ scrapped
+	 */
 	@FXML
 	void findInstructorSfq() {
 		buttonInstructorSfq.setDisable(true);
@@ -196,6 +210,9 @@ public class Controller {
 		textAreaConsole.setText(sfqHandler.getInstructorSfq());
 	}
 
+	/**
+	 * List SFQ of enrolled courses scrapped
+	 */
 	@FXML
 	void findSfqEnrollCourse() {
 		buttonSfqEnrollCourse.setDisable(true);
@@ -230,7 +247,12 @@ public class Controller {
 			showSearchInfo(true);
 		}
 	}
-
+	
+	/**
+	 *  Present the result of scraping and searching.
+	 *  
+	 * @param allSubSearch set true is all subject search is invovled, false otherwise
+	 */
 	public void showSearchInfo(boolean allSubSearch) {
 		filteredCourse = null;
 		filteredCourse = new Vector<Course>();
@@ -639,6 +661,7 @@ public class Controller {
 			false, false, false, false, false };
 
 	/**
+	 * Add or delete a section in the time table
 	 * 
 	 * @param sec the section to add or delete
 	 */
