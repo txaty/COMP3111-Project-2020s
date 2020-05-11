@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Course.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">COMP3111-Project-2020s</a> &gt; <a href="index.source.html" class="el_package">comp3111.coursescraper</a> &gt; <span class="el_source">Course.java</span></div><h1>Course.java</h1><pre class="source lang-java linenums">package comp3111.coursescraper;
+
+public class Course {
+	private static final int DEFAULT_MAX_SLOT = 20;
+	private static final int DEFAULT_MAX_SECTION = 20;
+
+	private String title;
+	private String description;
+	private String exclusion;
+	private Slot[] slots;
+	private int numSlots;
+	private Section[] sections;
+	private int numSections;
+
+<span class="fc" id="L15">	private boolean commonCore = false;</span>
+
+	/**
+	 * Course default constructor
+	 */
+<span class="fc" id="L20">	public Course() {</span>
+<span class="fc" id="L21">		slots = new Slot[DEFAULT_MAX_SLOT];</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">		for (int i = 0; i &lt; DEFAULT_MAX_SLOT; i++)</span>
+<span class="fc" id="L23">			slots[i] = null;</span>
+<span class="fc" id="L24">		sections = new Section[DEFAULT_MAX_SECTION];</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">		for (int i = 0; i &lt; DEFAULT_MAX_SECTION; i++)</span>
+<span class="fc" id="L26">			sections[i] = null;</span>
+<span class="fc" id="L27">		numSlots = 0;</span>
+<span class="fc" id="L28">		numSections = 0;</span>
+<span class="fc" id="L29">	}</span>
+
+	/**
+	 * 
+	 * @param s slot to add
+	 */
+	public void addSlot(Slot s) {
+<span class="fc bfc" id="L36" title="All 2 branches covered.">		if (numSlots &gt;= DEFAULT_MAX_SLOT)</span>
+<span class="fc" id="L37">			return;</span>
+<span class="fc" id="L38">		slots[numSlots++] = s.clone();</span>
+<span class="fc" id="L39">	}</span>
+
+	/**
+	 * 
+	 * @param i index of the slot we want
+	 * @return the slot
+	 */
+	public Slot getSlot(int i) {
+<span class="fc bfc" id="L47" title="All 4 branches covered.">		if (i &gt;= 0 &amp;&amp; i &lt; numSlots)</span>
+<span class="fc" id="L48">			return slots[i];</span>
+<span class="fc" id="L49">		return null;</span>
+	}
+
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+<span class="fc" id="L56">		return title;</span>
+	}
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+<span class="fc" id="L63">		this.title = title;</span>
+<span class="fc" id="L64">	}</span>
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+<span class="fc" id="L70">		return description;</span>
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+<span class="fc" id="L77">		this.description = description;</span>
+<span class="fc" id="L78">	}</span>
+
+	/**
+	 * @return the exclusion
+	 */
+	public String getExclusion() {
+<span class="fc" id="L84">		return exclusion;</span>
+	}
+
+	/**
+	 * @param exclusion the exclusion to set
+	 */
+	public void setExclusion(String exclusion) {
+<span class="fc" id="L91">		this.exclusion = exclusion;</span>
+<span class="fc" id="L92">	}</span>
+
+	/**
+	 * @return the numSlots
+	 */
+	public int getNumSlots() {
+<span class="fc" id="L98">		return numSlots;</span>
+	}
+
+	/**
+	 * @param numSlots the numSlots to set
+	 */
+	public void setNumSlots(int numSlots) {
+<span class="fc" id="L105">		this.numSlots = numSlots;</span>
+<span class="fc" id="L106">	}</span>
+
+	/**
+	 * 
+	 * @param s the section want to add
+	 */
+	public void addSection(Section s) {
+<span class="fc bfc" id="L113" title="All 2 branches covered.">		if (numSections &gt;= DEFAULT_MAX_SECTION)</span>
+<span class="fc" id="L114">			return;</span>
+<span class="fc" id="L115">		sections[numSections++] = s.clone();</span>
+<span class="fc" id="L116">	}</span>
+
+	/**
+	 * 
+	 * @param i the index of section we want to get
+	 * @return the section
+	 */
+
+	public Section getSection(int i) {
+<span class="fc bfc" id="L125" title="All 4 branches covered.">		if (i &gt;= 0 &amp;&amp; i &lt; numSections)</span>
+<span class="fc" id="L126">			return sections[i];</span>
+<span class="fc" id="L127">		return null;</span>
+	}
+
+	/**
+	 * 
+	 * @param s the section we want to change the last section to
+	 */
+	public void changeSection(Section s) {
+<span class="fc" id="L135">		sections[numSections - 1] = s;</span>
+<span class="fc" id="L136">	}</span>
+
+	/**
+	 * 
+	 * @return the number of sections
+	 */
+	public int getNumSections() {
+<span class="fc" id="L143">		return numSections;</span>
+	}
+
+	/**
+	 * 
+	 * @param n the number of sections to set
+	 */
+	public void setNumSections(int n) {
+<span class="fc" id="L151">		numSections = n;</span>
+<span class="fc" id="L152">	}</span>
+
+	/**
+	 * @return whether the course is a common core
+	 */
+	public boolean isCommonCore() {
+<span class="fc" id="L158">		return commonCore;</span>
+	}
+
+	/**
+	 * @param b the boolean result whether the course is a common core to set
+	 */
+	public void setCommonCore(Boolean b) {
+<span class="fc" id="L165">		commonCore = b;</span>
+<span class="fc" id="L166">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

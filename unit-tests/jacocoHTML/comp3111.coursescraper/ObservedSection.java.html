@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ObservedSection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">COMP3111-Project-2020s</a> &gt; <a href="index.source.html" class="el_package">comp3111.coursescraper</a> &gt; <span class="el_source">ObservedSection.java</span></div><h1>ObservedSection.java</h1><pre class="source lang-java linenums">/**
+ * The ObservedSection Class is implemented to allow the section information to be shown on List, 
+ * together with a checkbox used for the enrollment procedure
+ * 
+ * @author Chen Ziwei
+ */
+package comp3111.coursescraper;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+
+public class ObservedSection {
+	private SimpleStringProperty courseCode;
+	private SimpleStringProperty sectionCode;
+	private SimpleStringProperty courseName;
+	private SimpleStringProperty instructors;
+<span class="fc" id="L18">	@FXML</span>
+	private CheckBox checkBox = new CheckBox();
+	private Section section;
+
+	/**
+	 * Default Constructor;
+	 */
+<span class="fc" id="L25">	public ObservedSection() {</span>
+<span class="fc" id="L26">		courseCode = new SimpleStringProperty();</span>
+<span class="fc" id="L27">		sectionCode = new SimpleStringProperty();</span>
+<span class="fc" id="L28">		courseName = new SimpleStringProperty();</span>
+<span class="fc" id="L29">		instructors = new SimpleStringProperty();</span>
+<span class="fc" id="L30">	}</span>
+	
+	/**
+	 * @param s the section to be observed
+	 */
+<span class="fc" id="L35">	public ObservedSection(Section s) {</span>
+<span class="fc" id="L36">		String courseTitle = s.getCourse();</span>
+<span class="fc" id="L37">		courseCode = new SimpleStringProperty(courseTitle.split(&quot; &quot;)[0] + courseTitle.split(&quot; &quot;)[1]);</span>
+<span class="fc" id="L38">		sectionCode = new SimpleStringProperty(s.getCode());</span>
+<span class="fc" id="L39">		courseName = new SimpleStringProperty(courseTitle.split(&quot; &quot;, 3)[2]);</span>
+<span class="fc" id="L40">		String allInstructors = &quot;&quot;;</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">		for (int i = 0; i &lt; s.getNumInstructors(); i++)</span>
+<span class="fc" id="L42">			allInstructors += s.getInstructor(i) + &quot;\n&quot;;</span>
+<span class="fc" id="L43">		instructors = new SimpleStringProperty(allInstructors);</span>
+<span class="fc" id="L44">		checkBox.setSelected(s.isEnrolled());</span>
+<span class="fc" id="L45">		section = s;</span>
+<span class="fc" id="L46">	}</span>
+
+	/**
+	 * @return the course code
+	 */
+	public String getCourseCode() {
+<span class="fc" id="L52">		return courseCode.get();</span>
+	}
+
+	/**
+	 * @return the section code
+	 */
+	public String getSectionCode() {
+<span class="fc" id="L59">		return sectionCode.get();</span>
+	}
+
+	/**
+	 * @return the course name
+	 */
+	public String getCourseName() {
+<span class="fc" id="L66">		return courseName.get();</span>
+	}
+
+	/**
+	 * @return the instructors
+	 */
+	public String getInstructors() {
+<span class="fc" id="L73">		return instructors.get();</span>
+	}
+
+	/**
+	 * @return the checkbox
+	 */
+	public CheckBox getCheckBox() {
+<span class="fc" id="L80">		return checkBox;</span>
+	}
+
+	/**
+	 * @param cc the course code to set
+	 */
+	public void setCourseCode(String cc) {
+<span class="fc" id="L87">		courseCode.set(cc);</span>
+<span class="fc" id="L88">	}</span>
+
+	/**
+	 * @param sc the section code to set
+	 */
+	public void setSectionCode(String sc) {
+<span class="fc" id="L94">		sectionCode.set(sc);</span>
+<span class="fc" id="L95">	}</span>
+
+	/**
+	 * @param cn the course name to set
+	 */
+	public void setCourseName(String cn) {
+<span class="fc" id="L101">		courseName.set(cn);</span>
+<span class="fc" id="L102">	}</span>
+
+	/**
+	 * @param is the instructors to set
+	 */
+	public void setInstructors(String is) {
+<span class="fc" id="L108">		instructors.set(is);</span>
+<span class="fc" id="L109">	}</span>
+
+	/**
+	 * @param cb the checkbox to set
+	 */
+	public void setCheckBox(CheckBox cb) {
+<span class="fc" id="L115">		checkBox = cb;</span>
+<span class="fc" id="L116">	}</span>
+
+	/**
+	 * @return the original section
+	 */
+	public Section getSection() {
+<span class="fc" id="L122">		return section;</span>
+	}
+
+	/**
+	 * @return the property of course code
+	 */
+	public SimpleStringProperty courseCodeProperty() {
+<span class="fc" id="L129">		return courseCode;</span>
+	}
+
+	/**
+	 * @return the property of section code
+	 */
+	public SimpleStringProperty SectionCodeProperty() {
+<span class="fc" id="L136">		return sectionCode;</span>
+	}
+
+	/**
+	 * @return the property of course name
+	 */
+	public SimpleStringProperty courseNameProperty() {
+<span class="fc" id="L143">		return courseName;</span>
+	}
+
+	/**
+	 * @return the property of instructors
+	 */
+	public SimpleStringProperty instructorsProperty() {
+<span class="fc" id="L150">		return instructors;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Sfq.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">COMP3111-Project-2020s</a> &gt; <a href="index.source.html" class="el_package">comp3111.coursescraper</a> &gt; <span class="el_source">Sfq.java</span></div><h1>Sfq.java</h1><pre class="source lang-java linenums">package comp3111.coursescraper;
+
+import java.util.Map;
+import java.util.HashMap;
+
+/**
+ * The Sfq class is implemented to store the information scraped from SFQ URL.
+ * It also provide methods for fetching data about SFQ of courses and instructors.
+ * 
+ * 
+ * @author TIAN Xiangan
+ */
+public class Sfq {
+	/**
+	 *  Default constructor
+	 */
+<span class="fc" id="L17">	public Sfq() {};</span>
+	
+	/**
+	 * The SfqCourse class is used to store the SFQ of a course
+	 * 
+	 * @author TIAN Xiangan
+	 */
+	private class SfqCourse {
+<span class="fc" id="L25">		String code = &quot;&quot;;</span>
+<span class="fc" id="L26">		double mean = 0;</span>
+<span class="fc" id="L27">		double sd = 0;</span>
+<span class="fc" id="L28">		int size = 0;</span>
+		
+		/**
+		 * Constructor
+		 * 
+		 * @param c course code
+		 * @param m mean of the course SFQ
+		 * @param s SD of the course SFQ
+		 * @param n number of SFQ counted
+		 */
+<span class="fc" id="L38">		public SfqCourse(String c, double m, double s, int n) {</span>
+<span class="fc" id="L39">			this.code = c;</span>
+<span class="fc" id="L40">			this.mean = m;</span>
+<span class="fc" id="L41">			this.sd = s;</span>
+<span class="fc" id="L42">			this.size = n;</span>
+<span class="fc" id="L43">		}</span>
+	}
+	
+	/**
+	 * The SfqCourse class is used to store the SFQ of a course
+	 * 
+	 * @author TIAN Xiangan
+	 */
+	private class SfqInstructor {
+<span class="fc" id="L52">		String name = &quot;&quot;;</span>
+<span class="fc" id="L53">		double mean = 0;</span>
+<span class="fc" id="L54">		double sd = 0;</span>
+<span class="fc" id="L55">		int size = 0;</span>
+		
+		/**
+		 * Constructor
+		 * 
+		 * @param n name of the instructor
+		 * @param m mean of the instructor SFQ
+		 * @param s SD of the instructor SFQ
+		 * @param nn number of SFQ counted 
+		 */
+<span class="fc" id="L65">		public SfqInstructor(String n, double m, double s, int nn) {</span>
+<span class="fc" id="L66">			this.name = n;</span>
+<span class="fc" id="L67">			this.mean = m;</span>
+<span class="fc" id="L68">			this.sd = s;</span>
+<span class="fc" id="L69">			this.size = nn;</span>
+<span class="fc" id="L70">		}</span>
+	}
+
+<span class="fc" id="L73">	private Map&lt;String, SfqCourse&gt; courseSfqList = new HashMap&lt;String, SfqCourse&gt;();</span>
+<span class="fc" id="L74">	private Map&lt;String, SfqInstructor&gt; instructorSfqList = new HashMap&lt;String, SfqInstructor&gt;();</span>
+	
+	/**
+	 * Check if SFQ of the course is scraped
+	 * 
+	 * @param course course code
+	 * @return true if the course SFQ is scraped, false otherwise
+	 */
+	public boolean isScrapedCourse(String course) {
+<span class="fc" id="L83">		return courseSfqList.containsKey(course);</span>
+	}
+	
+	/**
+	 * Check if SFQ of the instructor is scraped
+	 * 
+	 * @param name instructor name
+	 * @return true if the instructor SFQ is scraped, false otherwise
+	 */
+	public boolean isScrapedInstructor(String name) {
+<span class="fc" id="L93">		return instructorSfqList.containsKey(name);</span>
+	}
+	
+	/**
+	 * Fetch the mean of a specific course
+	 * 
+	 * @param code course code
+	 * @return the mean of the course
+	 */
+	public double getCourseMean(String code) {
+<span class="fc bfc" id="L103" title="All 2 branches covered.">		if (courseSfqList.containsKey(code) == false)</span>
+<span class="fc" id="L104">			return 0;</span>
+<span class="fc" id="L105">		return courseSfqList.get(code).mean;</span>
+	}
+	
+	/**
+	 * Fetch the SD of a specific course
+	 * 
+	 * @param code course code
+	 * @return the SD of the course
+	 */
+	public double getCourseSd(String code) {
+<span class="fc bfc" id="L115" title="All 2 branches covered.">		if (courseSfqList.containsKey(code) == false)</span>
+<span class="fc" id="L116">			return 0;</span>
+<span class="fc" id="L117">		return courseSfqList.get(code).sd;</span>
+	}
+
+	/**
+	 * Fetch the mean of a specific instructor
+	 * 
+	 * @param name instructor name
+	 * @return the mean of the instructor 
+	 */
+	public double getInstructorMean(String name) {
+<span class="fc bfc" id="L127" title="All 2 branches covered.">		if (instructorSfqList.containsKey(name) == false)</span>
+<span class="fc" id="L128">			return 0;</span>
+<span class="fc" id="L129">		return instructorSfqList.get(name).mean;</span>
+	}
+	
+	/**
+	 * Fetch the mean of a specific instructor
+	 * 
+	 * @param name instructor name
+	 * @return the SD of the instructor
+	 */
+	public double getInstructorSd(String name) {
+<span class="fc bfc" id="L139" title="All 2 branches covered.">		if (instructorSfqList.containsKey(name) == false)</span>
+<span class="fc" id="L140">			return 0;</span>
+<span class="fc" id="L141">		return instructorSfqList.get(name).sd;</span>
+	}
+	
+	/**
+	 * Fetch the size of the hash map for storing the course SFQ
+	 * 
+	 * @return size of hash map of course SFQ
+	 */
+	public int getCourseListSize() {
+<span class="fc" id="L150">		return courseSfqList.size();</span>
+	}
+	
+	/**
+	 * Fetch the size of the hash map for storing the instructor SFQ
+	 * 
+	 * @return size of hash map of instructor SFQ
+	 */
+	public int getInstructorListSize() {
+<span class="fc" id="L159">		return instructorSfqList.size();</span>
+	}
+	
+	/**
+	 * Update the SFQ of a course when scraping the data. If the course has not recorded,
+	 * add a new one. If has, update its SFQ.
+	 * 
+	 * @param code course code
+	 * @param mean mean value to be updated
+	 * @param sd SD value to be updated
+	 * @param size number of the new SFQ to be counted
+	 */
+	public void addCourseSfq(String code, double mean, double sd, int size) {
+<span class="fc bfc" id="L172" title="All 2 branches covered.">		if (courseSfqList.containsKey(code)) {</span>
+<span class="fc" id="L173">			int newSize = courseSfqList.get(code).size + size;</span>
+<span class="fc" id="L174">			double newMean = (courseSfqList.get(code).mean * courseSfqList.get(code).size + mean * size) / newSize;</span>
+<span class="fc" id="L175">			double newSd = (courseSfqList.get(code).sd * courseSfqList.get(code).size + sd * size) / newSize;</span>
+<span class="fc" id="L176">			SfqCourse c = new SfqCourse(code, newMean, newSd, newSize);</span>
+<span class="fc" id="L177">			courseSfqList.replace(code, c);</span>
+<span class="fc" id="L178">		} else {</span>
+<span class="fc" id="L179">			SfqCourse c = new SfqCourse(code, mean, sd, size);</span>
+<span class="fc" id="L180">			courseSfqList.put(code, c);</span>
+		}
+<span class="fc" id="L182">	}</span>
+
+	/**
+	 * Update the SFQ of an instructor when scraping the data. If the instructor has not recorded,
+	 * add a new one. If has, update his/her SFQ.
+	 * 
+	 * @param name instructor name
+	 * @param mean mean value to be updated
+	 * @param sd SD value to be updated
+	 * @param size number of the new SFQ to be counted
+	 */
+	public void addInstructorSfq(String name, double mean, double sd, int size) {
+<span class="fc bfc" id="L194" title="All 2 branches covered.">		if (instructorSfqList.containsKey(name)) {</span>
+<span class="fc" id="L195">			int newSize = instructorSfqList.get(name).size + size;</span>
+<span class="fc" id="L196">			double newMean = (instructorSfqList.get(name).mean * instructorSfqList.get(name).size + mean * size)</span>
+					/ newSize;
+<span class="fc" id="L198">			double newSd = (instructorSfqList.get(name).sd * instructorSfqList.get(name).size + sd * size) / newSize;</span>
+<span class="fc" id="L199">			SfqInstructor i = new SfqInstructor(name, newMean, newSd, newSize);</span>
+<span class="fc" id="L200">			instructorSfqList.replace(name, i);</span>
+<span class="fc" id="L201">		} else {</span>
+<span class="fc" id="L202">			SfqInstructor i = new SfqInstructor(name, mean, sd, size);</span>
+<span class="fc" id="L203">			instructorSfqList.put(name, i);</span>
+		}
+<span class="fc" id="L205">	}</span>
+	
+	/**
+	 * Find the course SFQ in the scraped SFQs.
+	 * 
+	 * @param code course code
+	 * @return the array of the two doubles (mean and SD respectively) if the course is scraped, null otherwise
+	 */
+	public double[] findCourseSfq(String code) {
+<span class="fc bfc" id="L214" title="All 2 branches covered.">		if (courseSfqList.containsKey(code)) {</span>
+<span class="fc" id="L215">			return new double[] { courseSfqList.get(code).mean, courseSfqList.get(code).sd };</span>
+		} else {
+<span class="fc" id="L217">			return null;</span>
+		}
+	}
+
+	/**
+	 * Find the course SFQ in the scraped SFQs.
+	 * 
+	 * @param name instructor name
+	 * @return the array of the two doubles (mean and SD respectively) if the instructor is scraped, null otherwise
+	 */
+	public double[] findInstructorSfq(String name) {
+<span class="fc bfc" id="L228" title="All 2 branches covered.">		if (instructorSfqList.containsKey(name)) {</span>
+<span class="fc" id="L229">			return new double[] { instructorSfqList.get(name).mean, instructorSfqList.get(name).sd };</span>
+		} else {
+<span class="fc" id="L231">			return null;</span>
+		}
+	}
+	
+	/**
+	 *  List the information of instructor SFQs
+	 * @return the instructor SFQ String to print
+	 */
+	public String getInstructorSfq() {
+<span class="fc" id="L240">		String[] result = { &quot;&quot; };</span>
+<span class="fc" id="L241">		instructorSfqList.forEach((k, v) -&gt; result[0] = result[0] + k + &quot;\n&quot; + &quot;Mean: &quot; + String.format(&quot;%.1f&quot;, v.mean)</span>
+<span class="fc" id="L242">				+ &quot;\n&quot; + &quot;SD:   &quot; + String.format(&quot;%.1f&quot;, v.sd) + &quot;\n\n&quot;);</span>
+<span class="fc" id="L243">		return result[0];</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
