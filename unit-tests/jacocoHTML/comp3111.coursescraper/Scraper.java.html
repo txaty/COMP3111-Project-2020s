@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Scraper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">COMP3111-Project-2020s</a> &gt; <a href="index.source.html" class="el_package">comp3111.coursescraper</a> &gt; <span class="el_source">Scraper.java</span></div><h1>Scraper.java</h1><pre class="source lang-java linenums">package comp3111.coursescraper;
+
+import java.net.URLEncoder;
+import java.util.List;
+
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.DomNode;
+import com.gargoylesoftware.htmlunit.html.DomNodeList;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.DomText;
+import java.util.Vector;
+
+import org.apache.commons.lang3.ArrayUtils;
+
+/**
+ * WebScraper provide a sample code that scrape web content. After it is constructed, you can call the method scrape with a keyword, 
+ * the client will go to the default url and parse the page by looking at the HTML DOM.  
+ * &lt;br&gt;
+ * In this particular sample code, it access to HKUST class schedule and quota page (COMP). 
+ * &lt;br&gt;
+ * https://w5.ab.ust.hk/wcq/cgi-bin/1830/subject/COMP
+ *  &lt;br&gt;
+ * where 1830 means the third spring term of the academic year 2018-19 and COMP is the course code begins with COMP.
+ * &lt;br&gt;
+ * Assume you are working on Chrome, paste the url into your browser and press F12 to load the source code of the HTML. You might be freak
+ * out if you have never seen a HTML source code before. Keep calm and move on. Press Ctrl-Shift-C (or CMD-Shift-C if you got a mac) and move your
+ * mouse cursor around, different part of the HTML code and the corresponding the HTML objects will be highlighted. Explore your HTML page from
+ * body &amp;rarr; div id=&quot;classes&quot; &amp;rarr; div class=&quot;course&quot; &amp;rarr;. You might see something like this:
+ * &lt;br&gt;
+ * &lt;pre&gt;
+ * {@code
+ * &lt;div class=&quot;course&quot;&gt;
+ * &lt;div class=&quot;courseanchor&quot; style=&quot;position: relative; float: left; visibility: hidden; top: -164px;&quot;&gt;&lt;a name=&quot;COMP1001&quot;&gt;&amp;nbsp;&lt;/a&gt;&lt;/div&gt;
+ * &lt;div class=&quot;courseinfo&quot;&gt;
+ * &lt;div class=&quot;popup attrword&quot;&gt;&lt;span class=&quot;crseattrword&quot;&gt;[3Y10]&lt;/span&gt;&lt;div class=&quot;popupdetail&quot;&gt;CC for 3Y 2010 &amp;amp; 2011 cohorts&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;popup attrword&quot;&gt;&lt;span class=&quot;crseattrword&quot;&gt;[3Y12]&lt;/span&gt;&lt;div class=&quot;popupdetail&quot;&gt;CC for 3Y 2012 cohort&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;popup attrword&quot;&gt;&lt;span class=&quot;crseattrword&quot;&gt;[4Y]&lt;/span&gt;&lt;div class=&quot;popupdetail&quot;&gt;CC for 4Y 2012 and after&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;popup attrword&quot;&gt;&lt;span class=&quot;crseattrword&quot;&gt;[DELI]&lt;/span&gt;&lt;div class=&quot;popupdetail&quot;&gt;Mode of Delivery&lt;/div&gt;&lt;/div&gt;	
+ *    &lt;div class=&quot;courseattr popup&quot;&gt;
+ * 	    &lt;span style=&quot;font-size: 12px; color: #688; font-weight: bold;&quot;&gt;COURSE INFO&lt;/span&gt;
+ * 	    &lt;div class=&quot;popupdetail&quot;&gt;
+ * 	    &lt;table width=&quot;400&quot;&gt;
+ *         &lt;tbody&gt;
+ *             &lt;tr&gt;&lt;th&gt;ATTRIBUTES&lt;/th&gt;&lt;td&gt;Common Core (S&amp;amp;T) for 2010 &amp;amp; 2011 3Y programs&lt;br&gt;Common Core (S&amp;amp;T) for 2012 3Y programs&lt;br&gt;Common Core (S&amp;amp;T) for 4Y programs&lt;br&gt;[BLD] Blended learning&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;EXCLUSION&lt;/th&gt;&lt;td&gt;ISOM 2010, any COMP courses of 2000-level or above&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th&gt;DESCRIPTION&lt;/th&gt;&lt;td&gt;This course is an introduction to computers and computing tools. It introduces the organization and basic working mechanism of a computer system, including the development of the trend of modern computer system. It covers the fundamentals of computer hardware design and software application development. The course emphasizes the application of the state-of-the-art software tools to solve problems and present solutions via a range of skills related to multimedia and internet computing tools such as internet, e-mail, WWW, webpage design, computer animation, spread sheet charts/figures, presentations with graphics and animations, etc. The course also covers business, accessibility, and relevant security issues in the use of computers and Internet.&lt;/td&gt;
+ *             &lt;/tr&gt;	
+ *          &lt;/tbody&gt;
+ *      &lt;/table&gt;
+ * 	    &lt;/div&gt;
+ *    &lt;/div&gt;
+ * &lt;/div&gt;
+ *  &lt;h2&gt;COMP 1001 - Exploring Multimedia and Internet Computing (3 units)&lt;/h2&gt;
+ *  &lt;table class=&quot;sections&quot; width=&quot;1012&quot;&gt;
+ *   &lt;tbody&gt;
+ *    &lt;tr&gt;
+ *        &lt;th width=&quot;85&quot;&gt;Section&lt;/th&gt;&lt;th width=&quot;190&quot; style=&quot;text-align: left&quot;&gt;Date &amp;amp; Time&lt;/th&gt;&lt;th width=&quot;160&quot; style=&quot;text-align: left&quot;&gt;Room&lt;/th&gt;&lt;th width=&quot;190&quot; style=&quot;text-align: left&quot;&gt;Instructor&lt;/th&gt;&lt;th width=&quot;45&quot;&gt;Quota&lt;/th&gt;&lt;th width=&quot;45&quot;&gt;Enrol&lt;/th&gt;&lt;th width=&quot;45&quot;&gt;Avail&lt;/th&gt;&lt;th width=&quot;45&quot;&gt;Wait&lt;/th&gt;&lt;th width=&quot;81&quot;&gt;Remarks&lt;/th&gt;
+ *    &lt;/tr&gt;
+ *    &lt;tr class=&quot;newsect secteven&quot;&gt;
+ *        &lt;td align=&quot;center&quot;&gt;L1 (1765)&lt;/td&gt;
+ *        &lt;td&gt;We 02:00PM - 03:50PM&lt;/td&gt;&lt;td&gt;Rm 5620, Lift 31-32 (70)&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;/wcq/cgi-bin/1830/instructor/LEUNG, Wai Ting&quot;&gt;LEUNG, Wai Ting&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;67&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;0&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;67&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;0&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;&lt;tr class=&quot;newsect sectodd&quot;&gt;
+ *        &lt;td align=&quot;center&quot;&gt;LA1 (1766)&lt;/td&gt;
+ *        &lt;td&gt;Tu 09:00AM - 10:50AM&lt;/td&gt;&lt;td&gt;Rm 4210, Lift 19 (67)&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;/wcq/cgi-bin/1830/instructor/LEUNG, Wai Ting&quot;&gt;LEUNG, Wai Ting&lt;/a&gt;&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;67&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;0&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;67&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;0&lt;/td&gt;&lt;td align=&quot;center&quot;&gt;&amp;nbsp;&lt;/td&gt;
+ *    &lt;/tr&gt;
+ *   &lt;/tbody&gt;
+ *  &lt;/table&gt;
+ * &lt;/div&gt;
+ *}
+ *&lt;/pre&gt;
+ * &lt;br&gt;
+ * The code 
+ * &lt;pre&gt;
+ * {@code
+ * List&lt;?&gt; items = (List&lt;?&gt;) page.getByXPath(&quot;//div[@class='course']&quot;);
+ * }
+ * &lt;/pre&gt;
+ * extracts all result-row and stores the corresponding HTML elements to a list called items. Later in the loop it extracts the anchor tag 
+ * &amp;lsaquo; a &amp;rsaquo; to retrieve the display text (by .asText()) and the link (by .getHrefAttribute()).   
+ * 
+ *
+ */
+
+public class Scraper {
+	private WebClient client;
+
+	/**
+	 * Default Constructor
+	 */
+<span class="fc" id="L86">	public Scraper() {</span>
+<span class="fc" id="L87">		client = new WebClient();</span>
+<span class="fc" id="L88">		client.getOptions().setCssEnabled(false);</span>
+<span class="fc" id="L89">		client.getOptions().setJavaScriptEnabled(false);</span>
+<span class="fc" id="L90">	}</span>
+	
+	/**
+	 * Add slot to the section, and add section to the course.
+	 * 
+	 * @param e scraped HTML content
+	 * @param c course for adding section
+	 * @param secondRow setting true if checking the second row, false otherwise
+	 * @param sec section code
+	 * @return true if the section is valid, false otherwise
+	 */
+	private boolean addSlotAndSection(HtmlElement e, Course c, boolean secondRow, String sec) {
+<span class="fc bfc" id="L102" title="All 2 branches covered.">		String times[] = e.getChildNodes().get(secondRow ? 0 : 3).asText().split(&quot; &quot;);</span>
+<span class="fc" id="L103">		int counter = 0;</span>
+/*----------Resolve different time layout----------*/
+//		while (counter &lt; times.length) {
+//			times[counter].trim();
+//			if (times[counter].indexOf('-') == 2) {
+//				String timeList[] = times[counter].split(&quot;\n&quot;);
+//				if (timeList.length == 2) {
+//					times[counter] = timeList[1];
+//					counter++;
+//				} else {
+//					times = ArrayUtils.remove(times, counter);
+//				}
+//			} else {
+//				counter++;
+//			}
+//		}
+<span class="fc bfc" id="L119" title="All 2 branches covered.">		String venue = e.getChildNodes().get(secondRow ? 1 : 4).asText();</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">		if (secondRow) {</span>
+<span class="fc" id="L121">			counter = 0;</span>
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">			while (times[counter].length() &lt; 2) {</span>
+<span class="nc" id="L123">				counter++;</span>
+			}
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">			if (times[counter].equals(&quot;TBA&quot;))</span>
+<span class="nc" id="L126">				return true;</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">			for (int j = 0; j &lt; times[counter].length(); j += 2) {</span>
+<span class="fc" id="L128">				String code = times[counter].substring(j, j + 2);</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">				if (Slot.DAYS_MAP.get(code) == null)</span>
+<span class="fc" id="L130">					break;</span>
+<span class="fc" id="L131">				Slot s = new Slot();</span>
+<span class="fc" id="L132">				s.setDay(Slot.DAYS_MAP.get(code));</span>
+<span class="fc" id="L133">				s.setStart(times[counter + 1]);</span>
+<span class="fc" id="L134">				s.setEnd(times[counter + 3]);</span>
+<span class="fc" id="L135">				s.setVenue(venue);</span>
+<span class="fc" id="L136">				s.setSection(sec);</span>
+<span class="fc" id="L137">				Section newSec = c.getSection(c.getNumSections() - 1).clone();</span>
+<span class="fc" id="L138">				newSec.addSlot(s);</span>
+<span class="fc" id="L139">				c.changeSection(newSec);</span>
+<span class="fc" id="L140">				c.addSlot(s);</span>
+			}
+<span class="fc" id="L142">			return true;</span>
+		} else {
+<span class="fc" id="L144">			List&lt;?&gt; centerList = (List&lt;?&gt;) e.getByXPath(&quot;.//td[@align='center']&quot;);</span>
+<span class="fc" id="L145">			HtmlElement center = (HtmlElement) centerList.get(0);</span>
+<span class="fc" id="L146">			String section = center.asText();</span>
+<span class="fc bfc" id="L147" title="All 4 branches covered.">			if ((section.charAt(0) == 'L') || (section.charAt(0) == 'T')) {</span>
+<span class="fc" id="L148">				Section se = new Section();</span>
+<span class="fc" id="L149">				se.setCode(section);</span>
+<span class="fc" id="L150">				se.setCourse(c.getTitle());</span>
+<span class="fc" id="L151">				String instructor[] = e.getChildNodes().get(5).asText().split(&quot;\n&quot;);</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">				if (instructor[0].equals(&quot;TBA&quot;) == false) {</span>
+<span class="fc" id="L153">					se.setInstructors(instructor);</span>
+<span class="fc" id="L154">					se.setNumInstructors(instructor.length);</span>
+				} else {
+<span class="fc" id="L156">					se.setInstructors(null);</span>
+<span class="fc" id="L157">					se.setNumInstructors(0);</span>
+				}
+<span class="fc bfc" id="L159" title="All 2 branches covered.">				if (times[0].equals(&quot;TBA&quot;)) {</span>
+<span class="fc" id="L160">					c.addSection(se);</span>
+<span class="fc" id="L161">					return true;</span>
+				}
+<span class="fc" id="L163">				counter = 0;</span>
+<span class="pc bpc" id="L164" title="1 of 2 branches missed.">				while (times[counter].length() &lt; 2) {</span>
+<span class="nc" id="L165">					counter++;</span>
+				}
+<span class="fc bfc" id="L167" title="All 2 branches covered.">				for (int j = 0; j &lt; times[counter].length(); j += 2) {</span>
+<span class="fc" id="L168">					String code = times[counter].substring(j, j + 2);</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">					if (Slot.DAYS_MAP.get(code) == null)</span>
+<span class="fc" id="L170">						break;</span>
+<span class="fc" id="L171">					Slot s = new Slot();</span>
+<span class="fc" id="L172">					s.setDay(Slot.DAYS_MAP.get(code));</span>
+<span class="fc" id="L173">					s.setStart(times[counter + 1]);</span>
+<span class="fc" id="L174">					s.setEnd(times[counter + 3]);</span>
+<span class="fc" id="L175">					s.setVenue(venue);</span>
+<span class="fc" id="L176">					s.setSection(section);</span>
+<span class="fc" id="L177">					se.addSlot(s);</span>
+<span class="fc" id="L178">					c.addSlot(s);</span>
+				}
+<span class="fc" id="L180">				c.addSection(se);</span>
+<span class="fc" id="L181">				return true;</span>
+			}
+<span class="fc" id="L183">			return false;</span>
+		}
+
+	}
+
+	/**
+	 * Scrape the course information according to URL, term and subject.
+	 * 
+	 * @param baseurl base URL
+	 * @param term term to be scrapped
+	 * @param sub subject to be scrapped
+	 * @return return the result of the courst list is success, null otherwise
+	 */
+	public List&lt;Course&gt; scrape(String baseurl, String term, String sub) {
+		try {
+<span class="fc" id="L198">			HtmlPage page = client.getPage(baseurl + &quot;/&quot; + term + &quot;/subject/&quot; + sub);</span>
+<span class="fc" id="L199">			List&lt;?&gt; items = (List&lt;?&gt;) page.getByXPath(&quot;//div[@class='course']&quot;);</span>
+<span class="fc" id="L200">			Vector&lt;Course&gt; result = new Vector&lt;Course&gt;();</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">			for (int i = 0; i &lt; items.size(); i++) {</span>
+<span class="fc" id="L202">				Course c = new Course();</span>
+
+<span class="fc" id="L204">				HtmlElement htmlItem = (HtmlElement) items.get(i);</span>
+<span class="fc" id="L205">				HtmlElement title = (HtmlElement) htmlItem.getFirstByXPath(&quot;.//h2&quot;);</span>
+<span class="fc" id="L206">				c.setTitle(title.asText());</span>
+<span class="fc" id="L207">				List&lt;?&gt; popupdetailslist = (List&lt;?&gt;) htmlItem.getByXPath(&quot;.//div[@class='popupdetail']/table/tbody/tr&quot;);</span>
+<span class="fc" id="L208">				HtmlElement exclusion = null;</span>
+<span class="fc" id="L209">				HtmlElement commonCore = null;</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">				for (HtmlElement e : (List&lt;HtmlElement&gt;) popupdetailslist) {</span>
+<span class="fc" id="L211">					HtmlElement t = (HtmlElement) e.getFirstByXPath(&quot;.//th&quot;);</span>
+<span class="fc" id="L212">					HtmlElement d = (HtmlElement) e.getFirstByXPath(&quot;.//td&quot;);</span>
+<span class="fc bfc" id="L213" title="All 2 branches covered.">					if (t.asText().equals(&quot;ATTRIBUTES&quot;)) {</span>
+<span class="fc" id="L214">						commonCore = d;</span>
+					}
+<span class="fc bfc" id="L216" title="All 2 branches covered.">					if (t.asText().equals(&quot;EXCLUSION&quot;)) {</span>
+<span class="fc" id="L217">						exclusion = d;</span>
+					}
+<span class="fc" id="L219">				}</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">				c.setExclusion((exclusion == null ? &quot;null&quot; : exclusion.asText()));</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">				c.setCommonCore(!(commonCore == null));</span>
+<span class="fc" id="L222">				List&lt;?&gt; sections = (List&lt;?&gt;) htmlItem.getByXPath(&quot;.//tr[contains(@class,'newsect')]&quot;);</span>
+<span class="fc bfc" id="L223" title="All 2 branches covered.">				for (HtmlElement e : (List&lt;HtmlElement&gt;) sections) {</span>
+<span class="fc" id="L224">					boolean a = addSlotAndSection(e, c, false, null);</span>
+<span class="fc" id="L225">					e = (HtmlElement) e.getNextSibling();</span>
+<span class="pc bpc" id="L226" title="1 of 8 branches missed.">					if (e != null &amp;&amp; !e.getAttribute(&quot;class&quot;).contains(&quot;newsect&quot;) &amp;&amp; a == true &amp;&amp; c.getNumSlots() &gt;= 1) {</span>
+<span class="fc" id="L227">						addSlotAndSection(e, c, true, c.getSlot(c.getNumSlots() - 1).getSection());</span>
+					}
+<span class="fc" id="L229">				}</span>
+<span class="fc" id="L230">				result.add(c);</span>
+			}
+<span class="fc" id="L232">			client.close();</span>
+<span class="fc" id="L233">			return result;</span>
+<span class="fc" id="L234">		} catch (com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException e) {</span>
+<span class="fc" id="L235">			return null;</span>
+<span class="nc" id="L236">		} catch (Exception e) {</span>
+<span class="nc" id="L237">			System.out.println(e);</span>
+		}
+<span class="nc" id="L239">		return null;</span>
+	}
+
+	// For task 5, All Subject Search
+	/**
+	 * For all subject search purpose. Find the list of subjects according to the given URL and term.
+	 * 
+	 * @param baseurl base URL
+	 * @param term term to be scrapped
+	 * @return the list of subject strings, null otherwise
+	 */
+	public List&lt;String&gt; scrape(String baseurl, String term) {
+		try {
+<span class="fc" id="L252">			HtmlPage page = client.getPage(baseurl + &quot;/&quot; + term + &quot;/&quot;);</span>
+
+<span class="fc" id="L254">			List&lt;?&gt; items = (List&lt;?&gt;) page.getByXPath(&quot;//div[@class='depts']/a&quot;);</span>
+
+<span class="fc" id="L256">			Vector&lt;String&gt; result = new Vector&lt;String&gt;();</span>
+
+<span class="fc bfc" id="L258" title="All 2 branches covered.">			for (int i = 0; i &lt; items.size(); i++) {</span>
+<span class="fc" id="L259">				String s = new String();</span>
+<span class="fc" id="L260">				HtmlElement htmlItem = (HtmlElement) items.get(i);</span>
+<span class="fc" id="L261">				s = htmlItem.asText();</span>
+<span class="fc" id="L262">				result.add(s);</span>
+			}
+<span class="fc" id="L264">			return result;</span>
+<span class="fc" id="L265">		} catch (com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException e) {</span>
+<span class="fc" id="L266">			return null;</span>
+<span class="nc" id="L267">		} catch (Exception e) {</span>
+<span class="nc" id="L268">			System.out.println(e);</span>
+		}
+<span class="nc" id="L270">		return null;</span>
+	}
+
+	// For task 6, SFQ
+	/**
+	 * Check if the HTML element is a course code
+	 *  
+	 * @param ifCourseCode HTML element
+	 * @return true is the HTML element is a course code, false otherwise
+	 */
+	private boolean isCourseCode(HtmlElement ifCourseCode) {
+<span class="fc bfc" id="L281" title="All 2 branches covered.">		if (ifCourseCode == null)</span>
+<span class="fc" id="L282">			return false;</span>
+<span class="fc" id="L283">		String courseCode = ((HtmlElement) ifCourseCode).asText().trim();</span>
+<span class="pc bpc" id="L284" title="1 of 4 branches missed.">		if (courseCode.length() &gt;= 9 &amp;&amp; Character.isDigit(courseCode.toCharArray()[5])</span>
+<span class="pc bpc" id="L285" title="2 of 4 branches missed.">				&amp;&amp; Character.isDigit(courseCode.toCharArray()[6]) &amp;&amp; Character.isDigit(courseCode.toCharArray()[7])</span>
+<span class="pc bpc" id="L286" title="1 of 2 branches missed.">				&amp;&amp; Character.isDigit(courseCode.toCharArray()[8])) {</span>
+<span class="fc" id="L287">			return true;</span>
+		}
+<span class="fc" id="L289">		return false;</span>
+	}
+	
+	/**
+	 * Fetch the mean and SD for a course or an instructor
+	 * 
+	 * @param s course code or instructor name
+	 * @return an array of two doubles (mean and SD respectively)
+	 */
+	private double[] getMeanAndSd(String s) {
+<span class="fc" id="L299">		String firstSplit[] = s.split(&quot;\n&quot;);</span>
+<span class="fc" id="L300">		String secondSplit[] = firstSplit[0].split(&quot;\\(&quot;);</span>
+<span class="fc" id="L301">		double mean = 0.0;</span>
+		try {
+<span class="fc" id="L303">			mean = Double.parseDouble(secondSplit[0]);</span>
+<span class="fc" id="L304">		} catch (NumberFormatException e) {</span>
+<span class="fc" id="L305">		}</span>
+<span class="fc" id="L306">		double sd = 0.0;</span>
+<span class="fc" id="L307">		String thridSplit[] = secondSplit[1].split(&quot;\\)&quot;);</span>
+		try {
+<span class="fc" id="L309">			sd = Double.parseDouble(thridSplit[0]);</span>
+<span class="fc" id="L310">		} catch (NumberFormatException e) {</span>
+<span class="fc" id="L311">		}</span>
+<span class="fc" id="L312">		return new double[] { mean, sd };</span>
+	}
+	
+	/**
+	 * Scrape the SFQ from the given URL.
+	 * 
+	 * @param urlString URL for scraping
+	 * @return the Sfq object with information stored if success, null otherwise
+	 */
+	public Sfq scrapeSfq(String urlString) {
+		try {
+<span class="fc" id="L323">			HtmlPage page = client.getPage(urlString);</span>
+<span class="fc" id="L324">			Sfq sfq = new Sfq();</span>
+<span class="fc" id="L325">			List&lt;?&gt; listItems = (List&lt;?&gt;) page.getByXPath(&quot;//tr&quot;);</span>
+<span class="fc" id="L326">			int counter = 0;</span>
+<span class="fc" id="L327">			boolean isNewCourseCode = false;</span>
+<span class="fc bfc" id="L328" title="All 2 branches covered.">			while (counter &lt; listItems.size()) {</span>
+<span class="fc" id="L329">				HtmlElement rowItem = (HtmlElement) listItems.get(counter);</span>
+<span class="fc" id="L330">				List&lt;?&gt; ifCourseCheck = (List&lt;?&gt;) rowItem.getByXPath(&quot;.//td[@colspan='3']&quot;);</span>
+<span class="pc bpc" id="L331" title="1 of 4 branches missed.">				if (ifCourseCheck.size() != 0 &amp;&amp; isCourseCode(((HtmlElement) ifCourseCheck.get(0)))) {</span>
+					HtmlElement e;
+<span class="fc" id="L333">					isNewCourseCode = false;</span>
+					do {
+<span class="fc" id="L335">						counter++;</span>
+<span class="fc" id="L336">						e = (HtmlElement) listItems.get(counter);</span>
+<span class="fc" id="L337">						List&lt;?&gt; columnItems = (List&lt;?&gt;) e.getByXPath(&quot;.//td&quot;);</span>
+<span class="fc" id="L338">						isNewCourseCode = isCourseCode(e.getFirstByXPath(&quot;.//td[@colspan='3']&quot;));</span>
+<span class="fc bfc" id="L339" title="All 2 branches covered.">						if (isNewCourseCode == false) {</span>
+<span class="fc bfc" id="L340" title="All 2 branches covered.">							if (columnItems.size() &lt; 5</span>
+<span class="fc bfc" id="L341" title="All 2 branches covered.">									|| ((HtmlElement) columnItems.get(0)).asText().trim().matches(&quot;(.*)Overall(.*)&quot;)) {</span>
+<span class="fc" id="L342">								counter++;</span>
+<span class="fc" id="L343">								continue;</span>
+							}
+<span class="fc" id="L345">							String courseCodeChecker1 = ((HtmlElement) columnItems.get(1)).asText().trim();</span>
+<span class="fc" id="L346">							String courseCodeChecker2 = ((HtmlElement) columnItems.get(2)).asText().trim();</span>
+<span class="fc bfc" id="L347" title="All 2 branches covered.">							if (courseCodeChecker1.isBlank() == false) {</span>
+<span class="fc" id="L348">								double result[] = getMeanAndSd(((HtmlElement) columnItems.get(3)).asText().trim());</span>
+<span class="fc" id="L349">								int size = 1;</span>
+<span class="pc bpc" id="L350" title="1 of 4 branches missed.">								if (result[0] == 0 &amp;&amp; result[1] == 0)</span>
+<span class="fc" id="L351">									size = 0;</span>
+<span class="fc" id="L352">								sfq.addCourseSfq(((HtmlElement) ifCourseCheck.get(0)).asText().trim(), result[0],</span>
+										result[1], size);
+<span class="fc bfc" id="L354" title="All 2 branches covered.">							} else if (courseCodeChecker2.isBlank() == false) {</span>
+<span class="fc" id="L355">								double result[] = getMeanAndSd(((HtmlElement) columnItems.get(4)).asText().trim());</span>
+<span class="fc" id="L356">								int size = 1;</span>
+<span class="pc bpc" id="L357" title="1 of 4 branches missed.">								if (result[0] == 0 &amp;&amp; result[1] == 0)</span>
+<span class="fc" id="L358">									size = 0;</span>
+<span class="fc" id="L359">								sfq.addInstructorSfq(((HtmlElement) columnItems.get(2)).asText().trim(), result[0],</span>
+										result[1], size);
+							}
+						}
+<span class="pc bpc" id="L363" title="1 of 6 branches missed.">					} while (e != null &amp;&amp; counter &lt; listItems.size() - 1 &amp;&amp; isNewCourseCode == false);</span>
+				}
+<span class="fc bfc" id="L365" title="All 2 branches covered.">				if (isNewCourseCode == false)</span>
+<span class="fc" id="L366">					counter++;</span>
+<span class="fc" id="L367">			}</span>
+<span class="fc" id="L368">			return sfq;</span>
+<span class="nc" id="L369">		} catch (com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException e) {</span>
+<span class="nc" id="L370">			return null;</span>
+<span class="fc" id="L371">		} catch (Exception e) {</span>
+<span class="fc" id="L372">			System.out.println(e);</span>
+		}
+<span class="fc" id="L374">		return null;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

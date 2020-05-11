@@ -21,7 +21,7 @@
       <children>
             <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="350.0" prefWidth="719.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab fx:id="tabMain" text="Main">
+                <Tab fx:id="tabMain" onSelectionChanged="#triggerTabsAfterAllSubSearch" text="Main">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="221.0" prefWidth="719.0">
                            <children>
@@ -37,7 +37,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab fx:id="tabStatistic" text="Backend">
+                  <Tab fx:id="tabStatistic" onSelectionChanged="#triggerTabsAfterAllSubSearch" text="Backend">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -51,22 +51,22 @@
                         </AnchorPane>
                     </content>
                   </Tab>
-                <Tab fx:id="tabFilter" text="Filter">
+                <Tab fx:id="tabFilter" onSelectionChanged="#triggerTabsAfterAllSubSearch" text="Filter">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="722.0">
                            <children>
-                              <CheckBox layoutX="162.0" layoutY="48.0" mnemonicParsing="false" text="AM" />
-                              <CheckBox layoutX="162.0" layoutY="65.0" mnemonicParsing="false" text="PM" />
-                              <CheckBox layoutX="243.0" layoutY="48.0" mnemonicParsing="false" text="Monday" />
-                              <CheckBox layoutX="243.0" layoutY="65.0" mnemonicParsing="false" text="Tuesday" />
-                              <CheckBox layoutX="243.0" layoutY="81.0" mnemonicParsing="false" text="Wednesday" />
-                              <CheckBox layoutX="243.0" layoutY="98.0" mnemonicParsing="false" text="Thursday" />
-                              <CheckBox layoutX="243.0" layoutY="115.0" mnemonicParsing="false" text="Friday" />
-                              <CheckBox layoutX="243.0" layoutY="132.0" mnemonicParsing="false" text="Saturday" />
-                              <Button layoutX="162.0" layoutY="14.0" mnemonicParsing="false" text="Select All" />
-                              <CheckBox layoutX="360.0" layoutY="48.0" mnemonicParsing="false" text="Common Core" />
-                              <CheckBox layoutX="360.0" layoutY="65.0" mnemonicParsing="false" text="No Exclusion" />
-                              <CheckBox layoutX="500.0" layoutY="48.0" mnemonicParsing="false" text="With Labs or Tutorial" />
+                              <CheckBox fx:id="am" layoutX="162.0" layoutY="48.0" mnemonicParsing="false" onAction="#filter" text="AM" />
+                              <CheckBox fx:id="pm" layoutX="162.0" layoutY="65.0" mnemonicParsing="false" onAction="#filter" text="PM" />
+                              <CheckBox fx:id="monday" layoutX="243.0" layoutY="48.0" mnemonicParsing="false" onAction="#filter" text="Monday" />
+                              <CheckBox fx:id="tuesday" layoutX="243.0" layoutY="65.0" mnemonicParsing="false" onAction="#filter" text="Tuesday" />
+                              <CheckBox fx:id="wednesday" layoutX="243.0" layoutY="81.0" mnemonicParsing="false" onAction="#filter" text="Wednesday" />
+                              <CheckBox fx:id="thursday" layoutX="243.0" layoutY="98.0" mnemonicParsing="false" onAction="#filter" text="Thursday" />
+                              <CheckBox fx:id="friday" layoutX="243.0" layoutY="115.0" mnemonicParsing="false" onAction="#filter" text="Friday" />
+                              <CheckBox fx:id="saturday" layoutX="243.0" layoutY="132.0" mnemonicParsing="false" onAction="#filter" text="Saturday" />
+                              <Button fx:id="selectAll" layoutX="162.0" layoutY="14.0" mnemonicParsing="false" onAction="#selectOrDeselectAll" text="Select All" />
+                              <CheckBox fx:id="commonCore" layoutX="360.0" layoutY="48.0" mnemonicParsing="false" onAction="#filter" text="Common Core" />
+                              <CheckBox fx:id="noExclusion" layoutX="360.0" layoutY="65.0" mnemonicParsing="false" onAction="#filter" text="No Exclusion" />
+                              <CheckBox fx:id="withLabOrTut" layoutX="500.0" layoutY="48.0" mnemonicParsing="false" onAction="#filter" text="With Labs or Tutorial" />
                               <Label layoutX="32.0" layoutY="278.0" prefHeight="41.0" prefWidth="642.0" text="* When the filter is applied, display all sections that fulfill all of these conditions; Print them to the console below on any change of checkbox" wrapText="true" />
                               <Label layoutX="21.0" layoutY="88.0" prefHeight="175.0" prefWidth="199.0" text="A course has a section at that time/on that day. A section can be lecture/tutorial/lab. Click AM + Monday does not imply a course has a section on Monday morning. It means there is a section in the morning, but that section may not be on Monday. However, that course must have another Monday section." wrapText="true" />
                               <Label layoutX="338.0" layoutY="107.0" prefHeight="162.0" prefWidth="144.0" text="Common Core refers to 4Y CC; No Exclusion refers to a course does not has any exclusion. Information can be founded on the pop-up text of the &quot;COURSE INFO&quot;" wrapText="true" />
@@ -75,17 +75,17 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab fx:id="tabList" text="List">
+                  <Tab fx:id="tabList" onSelectionChanged="#triggerTabsAfterAllSubSearch" text="List">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="318.0" prefWidth="719.0">
                            <children>
-                              <TableView prefHeight="281.0" prefWidth="719.0">
+                              <TableView fx:id="courseTable" prefHeight="281.0" prefWidth="719.0">
                                 <columns>
-                                  <TableColumn prefWidth="91.0" text="Course Code" />
-                                    <TableColumn prefWidth="108.0" text="Section" />
-                                  <TableColumn prefWidth="271.0" text="Course Name" />
-                                    <TableColumn prefWidth="152.0" text="Instructor" />
-                                    <TableColumn prefWidth="96.0" text="Enroll" />
+                                  <TableColumn fx:id="courseCode" prefWidth="91.0" text="Course Code" />
+                                    <TableColumn fx:id="section" prefWidth="108.0" text="Section" />
+                                  <TableColumn fx:id="courseName" prefWidth="271.0" text="Course Name" />
+                                    <TableColumn fx:id="instructor" prefWidth="152.0" text="Instructor" />
+                                    <TableColumn fx:id="enroll" prefWidth="96.0" text="Enroll" />
                                 </columns>
                               </TableView>
                               <Label layoutX="22.0" layoutY="281.0" text="*Fill the table according to the result of the Filter. If the Filter cannot be correctly implemented, show all result scrapped." />
@@ -135,7 +135,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Button layoutX="73.0" layoutY="29.0" mnemonicParsing="false" onAction="#allSubjectSearch" text="All Subject Search" />
+                              <Button fx:id="allSubSearchButton" layoutX="73.0" layoutY="29.0" mnemonicParsing="false" onAction="#allSubjectSearch" text="All Subject Search" />
                               <ProgressBar fx:id="progressbar" layoutX="316.0" layoutY="33.0" prefHeight="18.0" prefWidth="264.0" progress="0.0" />
                               <Label layoutX="255.0" layoutY="34.0" text="Progress" />
                               <Label layoutX="65.0" layoutY="210.0" text="Total Number of Categories/Code Prefix" />
@@ -147,12 +147,12 @@
                         </AnchorPane>
                     </content>
                   </Tab>
-                  <Tab fx:id="tabSfq" text="SFQ">
+                  <Tab fx:id="tabSfq" onSelectionChanged="#tabSfqCheck" text="SFQ">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="82.0" layoutY="31.0" text="SFQ URL" />
-                              <TextField fx:id="textfieldSfqUrl" layoutX="147.0" layoutY="27.0" prefHeight="25.0" prefWidth="403.0" text="http://sfq.ust.hk/results/eng-f19.html " />
+                              <TextField fx:id="textfieldSfqUrl" layoutX="147.0" layoutY="27.0" prefHeight="25.0" prefWidth="403.0" text="file:\\\\D:\\Desktop\\3111Proj\\SchoolSummaryReport.html  " />
                               <Button fx:id="buttonSfqEnrollCourse" layoutX="147.0" layoutY="64.0" mnemonicParsing="false" onAction="#findSfqEnrollCourse" text="Find SFQ with my enrolled courses" />
                               <Button fx:id="buttonInstructorSfq" layoutX="384.0" layoutY="64.0" mnemonicParsing="false" onAction="#findInstructorSfq" text="List instructors' average SFQ" />
                               <Label layoutX="42.0" layoutY="132.0" text="You may assume no login is required when you scrape the SFQ page" />

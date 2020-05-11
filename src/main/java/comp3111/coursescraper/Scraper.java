@@ -12,6 +12,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.DomText;
 import java.util.Vector;
 
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * WebScraper provide a sample code that scrape web content. After it is constructed, you can call the method scrape with a keyword, 
@@ -75,82 +76,301 @@ import java.util.Vector;
  * 
  *
  */
+
 public class Scraper {
 	private WebClient client;
 
 	/**
-	 * Default Constructor 
+	 * Default Constructor
 	 */
 	public Scraper() {
 		client = new WebClient();
 		client.getOptions().setCssEnabled(false);
 		client.getOptions().setJavaScriptEnabled(false);
 	}
-
-	private void addSlot(HtmlElement e, Course c, boolean secondRow) {
-		String times[] =  e.getChildNodes().get(secondRow ? 0 : 3).asText().split(" ");
+	
+	/**
+	 * Add slot to the section, and add section to the course.
+	 * 
+	 * @param e scraped HTML content
+	 * @param c course for adding section
+	 * @param secondRow setting true if checking the second row, false otherwise
+	 * @param sec section code
+	 * @return true if the section is valid, false otherwise
+	 */
+	private boolean addSlotAndSection(HtmlElement e, Course c, boolean secondRow, String sec) {
+		String times[] = e.getChildNodes().get(secondRow ? 0 : 3).asText().split(" ");
+		int counter = 0;
+/*----------Resolve different time layout----------*/
+//		while (counter < times.length) {
+//			times[counter].trim();
+//			if (times[counter].indexOf('-') == 2) {
+//				String timeList[] = times[counter].split("\n");
+//				if (timeList.length == 2) {
+//					times[counter] = timeList[1];
+//					counter++;
+//				} else {
+//					times = ArrayUtils.remove(times, counter);
+//				}
+//			} else {
+//				counter++;
+//			}
+//		}
 		String venue = e.getChildNodes().get(secondRow ? 1 : 4).asText();
-		if (times[0].equals("TBA"))
-			return;
-		for (int j = 0; j < times[0].length(); j+=2) {
-			String code = times[0].substring(j , j + 2);
-			if (Slot.DAYS_MAP.get(code) == null)
-				break;
-			Slot s = new Slot();
-			s.setDay(Slot.DAYS_MAP.get(code));
-			s.setStart(times[1]);
-			s.setEnd(times[3]);
-			s.setVenue(venue);
-			c.addSlot(s);	
+		if (secondRow) {
+			counter = 0;
+			while (times[counter].length() < 2) {
+				counter++;
+			}
+			if (times[counter].equals("TBA"))
+				return true;
+			for (int j = 0; j < times[counter].length(); j += 2) {
+				String code = times[counter].substring(j, j + 2);
+				if (Slot.DAYS_MAP.get(code) == null)
+					break;
+				Slot s = new Slot();
+				s.setDay(Slot.DAYS_MAP.get(code));
+				s.setStart(times[counter + 1]);
+				s.setEnd(times[counter + 3]);
+				s.setVenue(venue);
+				s.setSection(sec);
+				Section newSec = c.getSection(c.getNumSections() - 1).clone();
+				newSec.addSlot(s);
+				c.changeSection(newSec);
+				c.addSlot(s);
+			}
+			return true;
+		} else {
+			List<?> centerList = (List<?>) e.getByXPath(".//td[@align='center']");
+			HtmlElement center = (HtmlElement) centerList.get(0);
+			String section = center.asText();
+			if ((section.charAt(0) == 'L') || (section.charAt(0) == 'T')) {
+				Section se = new Section();
+				se.setCode(section);
+				se.setCourse(c.getTitle());
+				String instructor[] = e.getChildNodes().get(5).asText().split("\n");
+				if (instructor[0].equals("TBA") == false) {
+					se.setInstructors(instructor);
+					se.setNumInstructors(instructor.length);
+				} else {
+					se.setInstructors(null);
+					se.setNumInstructors(0);
+				}
+				if (times[0].equals("TBA")) {
+					c.addSection(se);
+					return true;
+				}
+				counter = 0;
+				while (times[counter].length() < 2) {
+					counter++;
+				}
+				for (int j = 0; j < times[counter].length(); j += 2) {
+					String code = times[counter].substring(j, j + 2);
+					if (Slot.DAYS_MAP.get(code) == null)
+						break;
+					Slot s = new Slot();
+					s.setDay(Slot.DAYS_MAP.get(code));
+					s.setStart(times[counter + 1]);
+					s.setEnd(times[counter + 3]);
+					s.setVenue(venue);
+					s.setSection(section);
+					se.addSlot(s);
+					c.addSlot(s);
+				}
+				c.addSection(se);
+				return true;
+			}
+			return false;
 		}
 
 	}
 
+	/**
+	 * Scrape the course information according to URL, term and subject.
+	 * 
+	 * @param baseurl base URL
+	 * @param term term to be scrapped
+	 * @param sub subject to be scrapped
+	 * @return return the result of the courst list is success, null otherwise
+	 */
 	public List<Course> scrape(String baseurl, String term, String sub) {
-
 		try {
-			
 			HtmlPage page = client.getPage(baseurl + "/" + term + "/subject/" + sub);
-
-			
 			List<?> items = (List<?>) page.getByXPath("//div[@class='course']");
-			
 			Vector<Course> result = new Vector<Course>();
-
 			for (int i = 0; i < items.size(); i++) {
 				Course c = new Course();
+
 				HtmlElement htmlItem = (HtmlElement) items.get(i);
-				
 				HtmlElement title = (HtmlElement) htmlItem.getFirstByXPath(".//h2");
 				c.setTitle(title.asText());
-				
 				List<?> popupdetailslist = (List<?>) htmlItem.getByXPath(".//div[@class='popupdetail']/table/tbody/tr");
 				HtmlElement exclusion = null;
-				for ( HtmlElement e : (List<HtmlElement>)popupdetailslist) {
+				HtmlElement commonCore = null;
+				for (HtmlElement e : (List<HtmlElement>) popupdetailslist) {
 					HtmlElement t = (HtmlElement) e.getFirstByXPath(".//th");
 					HtmlElement d = (HtmlElement) e.getFirstByXPath(".//td");
+					if (t.asText().equals("ATTRIBUTES")) {
+						commonCore = d;
+					}
 					if (t.asText().equals("EXCLUSION")) {
 						exclusion = d;
 					}
 				}
 				c.setExclusion((exclusion == null ? "null" : exclusion.asText()));
-				
+				c.setCommonCore(!(commonCore == null));
 				List<?> sections = (List<?>) htmlItem.getByXPath(".//tr[contains(@class,'newsect')]");
-				for ( HtmlElement e: (List<HtmlElement>)sections) {
-					addSlot(e, c, false);
-					e = (HtmlElement)e.getNextSibling();
-					if (e != null && !e.getAttribute("class").contains("newsect"))
-						addSlot(e, c, true);
+				for (HtmlElement e : (List<HtmlElement>) sections) {
+					boolean a = addSlotAndSection(e, c, false, null);
+					e = (HtmlElement) e.getNextSibling();
+					if (e != null && !e.getAttribute("class").contains("newsect") && a == true && c.getNumSlots() >= 1) {
+						addSlotAndSection(e, c, true, c.getSlot(c.getNumSlots() - 1).getSection());
+					}
 				}
-				
 				result.add(c);
 			}
 			client.close();
 			return result;
+		} catch (com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException e) {
+			return null;
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 		return null;
 	}
 
+	// For task 5, All Subject Search
+	/**
+	 * For all subject search purpose. Find the list of subjects according to the given URL and term.
+	 * 
+	 * @param baseurl base URL
+	 * @param term term to be scrapped
+	 * @return the list of subject strings, null otherwise
+	 */
+	public List<String> scrape(String baseurl, String term) {
+		try {
+			HtmlPage page = client.getPage(baseurl + "/" + term + "/");
+
+			List<?> items = (List<?>) page.getByXPath("//div[@class='depts']/a");
+
+			Vector<String> result = new Vector<String>();
+
+			for (int i = 0; i < items.size(); i++) {
+				String s = new String();
+				HtmlElement htmlItem = (HtmlElement) items.get(i);
+				s = htmlItem.asText();
+				result.add(s);
+			}
+			return result;
+		} catch (com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException e) {
+			return null;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+
+	// For task 6, SFQ
+	/**
+	 * Check if the HTML element is a course code
+	 *  
+	 * @param ifCourseCode HTML element
+	 * @return true is the HTML element is a course code, false otherwise
+	 */
+	private boolean isCourseCode(HtmlElement ifCourseCode) {
+		if (ifCourseCode == null)
+			return false;
+		String courseCode = ((HtmlElement) ifCourseCode).asText().trim();
+		if (courseCode.length() >= 9 && Character.isDigit(courseCode.toCharArray()[5])
+				&& Character.isDigit(courseCode.toCharArray()[6]) && Character.isDigit(courseCode.toCharArray()[7])
+				&& Character.isDigit(courseCode.toCharArray()[8])) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Fetch the mean and SD for a course or an instructor
+	 * 
+	 * @param s course code or instructor name
+	 * @return an array of two doubles (mean and SD respectively)
+	 */
+	private double[] getMeanAndSd(String s) {
+		String firstSplit[] = s.split("\n");
+		String secondSplit[] = firstSplit[0].split("\\(");
+		double mean = 0.0;
+		try {
+			mean = Double.parseDouble(secondSplit[0]);
+		} catch (NumberFormatException e) {
+		}
+		double sd = 0.0;
+		String thridSplit[] = secondSplit[1].split("\\)");
+		try {
+			sd = Double.parseDouble(thridSplit[0]);
+		} catch (NumberFormatException e) {
+		}
+		return new double[] { mean, sd };
+	}
+	
+	/**
+	 * Scrape the SFQ from the given URL.
+	 * 
+	 * @param urlString URL for scraping
+	 * @return the Sfq object with information stored if success, null otherwise
+	 */
+	public Sfq scrapeSfq(String urlString) {
+		try {
+			HtmlPage page = client.getPage(urlString);
+			Sfq sfq = new Sfq();
+			List<?> listItems = (List<?>) page.getByXPath("//tr");
+			int counter = 0;
+			boolean isNewCourseCode = false;
+			while (counter < listItems.size()) {
+				HtmlElement rowItem = (HtmlElement) listItems.get(counter);
+				List<?> ifCourseCheck = (List<?>) rowItem.getByXPath(".//td[@colspan='3']");
+				if (ifCourseCheck.size() != 0 && isCourseCode(((HtmlElement) ifCourseCheck.get(0)))) {
+					HtmlElement e;
+					isNewCourseCode = false;
+					do {
+						counter++;
+						e = (HtmlElement) listItems.get(counter);
+						List<?> columnItems = (List<?>) e.getByXPath(".//td");
+						isNewCourseCode = isCourseCode(e.getFirstByXPath(".//td[@colspan='3']"));
+						if (isNewCourseCode == false) {
+							if (columnItems.size() < 5
+									|| ((HtmlElement) columnItems.get(0)).asText().trim().matches("(.*)Overall(.*)")) {
+								counter++;
+								continue;
+							}
+							String courseCodeChecker1 = ((HtmlElement) columnItems.get(1)).asText().trim();
+							String courseCodeChecker2 = ((HtmlElement) columnItems.get(2)).asText().trim();
+							if (courseCodeChecker1.isBlank() == false) {
+								double result[] = getMeanAndSd(((HtmlElement) columnItems.get(3)).asText().trim());
+								int size = 1;
+								if (result[0] == 0 && result[1] == 0)
+									size = 0;
+								sfq.addCourseSfq(((HtmlElement) ifCourseCheck.get(0)).asText().trim(), result[0],
+										result[1], size);
+							} else if (courseCodeChecker2.isBlank() == false) {
+								double result[] = getMeanAndSd(((HtmlElement) columnItems.get(4)).asText().trim());
+								int size = 1;
+								if (result[0] == 0 && result[1] == 0)
+									size = 0;
+								sfq.addInstructorSfq(((HtmlElement) columnItems.get(2)).asText().trim(), result[0],
+										result[1], size);
+							}
+						}
+					} while (e != null && counter < listItems.size() - 1 && isNewCourseCode == false);
+				}
+				if (isNewCourseCode == false)
+					counter++;
+			}
+			return sfq;
+		} catch (com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException e) {
+			return null;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return null;
+	}
 }
