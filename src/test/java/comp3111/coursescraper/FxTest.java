@@ -37,16 +37,17 @@ public class FxTest extends ApplicationTest {
    		Scene scene =  new Scene(root);
    		stage.setScene(scene);
    		stage.setTitle("Course Scraper");
+   		stage.setAlwaysOnTop(true);
    		stage.show();
    		s = scene;
 	}
 
 	
-
 	/*---------- Task 5, 6----------*/
 	@Test
 	public void testListEnrollCourseSfqButtionDisable1() {
 		clickOn("#tabSfq");
+		sleep(1000);
 		Button b = (Button)s.lookup("#buttonSfqEnrollCourse");
 		assertTrue(b.isDisabled());
 	}
@@ -96,6 +97,7 @@ public class FxTest extends ApplicationTest {
 		c.allSubjectSearch();
 		sleep(30000);
 		c.allSubjectSearch();
+		sleep(1000);
 		assertEquals(c.getNumSubjects(), 75);
 	}
 	
@@ -127,8 +129,11 @@ public class FxTest extends ApplicationTest {
 			moveBy(-40, 0);
 			sleep(1000);
 			clickOn();
+			sleep(1000);
 			clickOn("#tabSfq");
+			sleep(1000);
 			clickOn("#buttonSfqEnrollCourse");
+			sleep(1000);
 		} catch (Exception e) {
 			isError = true;
 		}
@@ -186,6 +191,7 @@ public class FxTest extends ApplicationTest {
 			clickOn();
 			sleep(1000);
 			clickOn();
+			sleep(1000);
 		} catch (Exception e) {
 			isError = true;
 		}

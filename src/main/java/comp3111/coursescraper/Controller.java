@@ -247,8 +247,13 @@ public class Controller {
 		}
 		if (sfqHandler != null) {
 			String consoleText = "";
+			List<String> recordCourse = new Vector<String>();
 			for (Section section : sectionEnrolled) {
 				String courseCode = section.getCourse().split("-")[0].trim();
+				if (recordCourse.contains(courseCode)) {
+					continue;
+				}
+				recordCourse.add(courseCode);
 				double[] result = sfqHandler.findCourseSfq(courseCode);
 				if (result != null) {
 					consoleText = consoleText + courseCode + "\n" + "Mean: " + String.format("%.1f", result[0]) + "\n"
