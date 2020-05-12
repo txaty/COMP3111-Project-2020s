@@ -99,6 +99,8 @@ public class Controller {
 	private Thread allSubSearchThread;
 
 	private int threadCounter = 0;
+	
+	private boolean runThread = false;
 
 	private boolean isAllSearched = false;
 
@@ -135,6 +137,7 @@ public class Controller {
 			allSubSearchActivated = true;
 		} else {
 			allSubSearchActivated = false;
+			runThread = true;
 			TOTAL_NUMBER_OF_COURSES = 0;
 			v.clear();
 			PROGRESS_INDEX = 0;
@@ -147,27 +150,30 @@ public class Controller {
 						@SuppressWarnings("deprecation")
 						@Override
 						public void run() {
-							if (threadCounter < sl.size()) {
-								String subStr = sl.get(threadCounter);
-								List<Course> courseOfSubject = scraper.scrape(textfieldURL.getText(),
-										textfieldTerm.getText(), subStr);
-								if (courseOfSubject != null) {
-									if (courseOfSubject.size() != 0) {
-										v.addAll(courseOfSubject);
-										TOTAL_NUMBER_OF_COURSES += courseOfSubject.size();
-										System.out.println(subStr + " is done");
-										PROGRESS_INDEX = 1.0 * (threadCounter + 1) / ALL_SUBJECT_COUNT;
+							if (runThread) {
+								if (threadCounter < sl.size()) {
+									String subStr = sl.get(threadCounter);
+									List<Course> courseOfSubject = scraper.scrape(textfieldURL.getText(),
+											textfieldTerm.getText(), subStr);
+									if (courseOfSubject != null) {
+										if (courseOfSubject.size() != 0) {
+											v.addAll(courseOfSubject);
+											TOTAL_NUMBER_OF_COURSES += courseOfSubject.size();
+											System.out.println(subStr + " is done");
+											PROGRESS_INDEX = 1.0 * (threadCounter + 1) / ALL_SUBJECT_COUNT;
+										}
 									}
+								} else {
+									textAreaConsole.setText("Total Number of Courses fetched: " + TOTAL_NUMBER_OF_COURSES);
+									allSubSearchButton.setDisable(false);
+									buttonSfqEnrollCourse.setDisable(false);
+									isAllSearched = true;
+//									allSubSearchThread.stop();
+									runThread = false;
 								}
-							} else {
-								textAreaConsole.setText("Total Number of Courses fetched: " + TOTAL_NUMBER_OF_COURSES);
-								allSubSearchButton.setDisable(false);
-								buttonSfqEnrollCourse.setDisable(false);
-								isAllSearched = true;
-								allSubSearchThread.stop();
+								progressbar.setProgress(PROGRESS_INDEX);
+								threadCounter++;
 							}
-							progressbar.setProgress(PROGRESS_INDEX);
-							threadCounter++;
 						}
 					};
 					while (true) {
@@ -544,10 +550,9 @@ public class Controller {
 			if (result)
 				result = !noSaturday;
 		}
-		/*
-		 * Please uncomment this code after c.isCommerCore implemented
-		 * if(commonCore.isSelected()) { if(result) result = c.isCommonCore(); }
-		 */
+		
+		 if(commonCore.isSelected()) { if(result) result = c.isCommonCore(); }
+		 
 
 		if (noExclusion.isSelected()) {
 			if (result)

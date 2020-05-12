@@ -49,7 +49,7 @@ public class FxTest extends ApplicationTest {
 //	}
 	/*---------- Task 5, 6----------*/
 	@Test
-	public void testListEnrollCourseSfqButtionDisable() {
+	public void testListEnrollCourseSfqButtionDisable() throws Exception {
 		clickOn("#tabMain");
 		sleep(1000);
 		clickOn("#buttonSearch");
@@ -63,8 +63,10 @@ public class FxTest extends ApplicationTest {
 	}
 	
 	@Test
-	public void testListEnrollInstructorSfqButtionDisable1() {
+	public void testListEnrollInstructorSfqButtionDisable1() throws Exception {
+		sleep(1000);
 		clickOn("#tabSfq");
+		sleep(1000);
 		clickOn("#buttonInstructorSfq");
 		Button b = (Button)s.lookup("#buttonInstructorSfq");
 		sleep(1000);
@@ -72,8 +74,10 @@ public class FxTest extends ApplicationTest {
 	}
 	
 	@Test
-	public void testListEnrollInstructorSfqButtionDisable2() {
+	public void testListEnrollInstructorSfqButtionDisable2() throws Exception {
+		sleep(1000);
 		clickOn("#tabSfq");
+		sleep(1000);
 		clickOn("#buttonInstructorSfq");
 		sleep(2000);
 		clickOn("#buttonInstructorSfq");
