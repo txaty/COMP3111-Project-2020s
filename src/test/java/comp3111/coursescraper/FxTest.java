@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.testfx.assertions.api.Assertions;
 import org.testfx.framework.junit.ApplicationTest;
 
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -41,15 +42,17 @@ public class FxTest extends ApplicationTest {
 	}
 
 	
-//	@Test
-//	public void testListEnrollCourseSfqButtionDisable1() {
-//		clickOn("#tabSfq");
-//		Button b = (Button)s.lookup("#buttonSfqEnrollCourse");
-//		assertTrue(b.isDisabled());
-//	}
+
 	/*---------- Task 5, 6----------*/
 	@Test
-	public void testListEnrollCourseSfqButtionDisable() throws Exception {
+	public void testListEnrollCourseSfqButtionDisable1() {
+		clickOn("#tabSfq");
+		Button b = (Button)s.lookup("#buttonSfqEnrollCourse");
+		assertTrue(b.isDisabled());
+	}
+	
+	@Test
+	public void testListEnrollCourseSfqButtionDisable() {
 		clickOn("#tabMain");
 		sleep(1000);
 		clickOn("#buttonSearch");
@@ -63,7 +66,7 @@ public class FxTest extends ApplicationTest {
 	}
 	
 	@Test
-	public void testListEnrollInstructorSfqButtionDisable1() throws Exception {
+	public void testListEnrollInstructorSfqButtionDisable1() {
 		sleep(1000);
 		clickOn("#tabSfq");
 		sleep(1000);
@@ -74,7 +77,7 @@ public class FxTest extends ApplicationTest {
 	}
 	
 	@Test
-	public void testListEnrollInstructorSfqButtionDisable2() throws Exception {
+	public void testListEnrollInstructorSfqButtionDisable2() {
 		sleep(1000);
 		clickOn("#tabSfq");
 		sleep(1000);
@@ -101,47 +104,93 @@ public class FxTest extends ApplicationTest {
 		Controller c = loader.getController();
 		assertEquals(c.getNumSubjects(), 0);
 	}
+	
+	@Test
+	public void testfindSfqEnrollCourse() {
+		boolean isError = false;
+		try {
+			sleep(1000);
+			clickOn("#tabMain");
+			sleep(1000);
+			clickOn("#buttonSearch");
+			sleep(1000);
+			clickOn("#tabList");
+			sleep(1000);
+			Node node = lookup("#enroll").nth(2).query();
+			moveTo(node);
+			moveBy(-40, 0);
+			sleep(1000);
+			clickOn();
+			node = lookup("#enroll").nth(8).query();
+			moveTo(node);
+			sleep(1000);
+			moveBy(-40, 0);
+			sleep(1000);
+			clickOn();
+			clickOn("#tabSfq");
+			clickOn("#buttonSfqEnrollCourse");
+		} catch (Exception e) {
+			isError = true;
+		}
+		assertFalse(isError);
+	}
 	/*----------End Task 5, 6----------*/
 	
 	@Test
 	public void testSelectAll() {
-		clickOn("#tabMain");
-		sleep(500);
-		clickOn("#buttonSearch");
-		sleep(2000);
-		clickOn("#tabFilter");
-		sleep(100);
-		clickOn("#selectAll");
-		sleep(2000);
-		clickOn("#tabList");
-		sleep(500);
-		clickOn("#tabTimetable");
-		sleep(500);
-		clickOn("#tabFilter");
-		sleep(500);
-		clickOn("#selectAll");
-		assertTrue(true);
+		boolean isError = false;
+		try {
+			clickOn("#tabMain");
+			sleep(500);
+			clickOn("#buttonSearch");
+			sleep(2000);
+			clickOn("#tabFilter");
+			sleep(100);
+			clickOn("#selectAll");
+			sleep(2000);
+			clickOn("#tabList");
+			sleep(500);
+			clickOn("#tabTimetable");
+			sleep(500);
+			clickOn("#tabFilter");
+			sleep(500);
+			clickOn("#selectAll");
+		} catch (Exception e) {
+			isError = true;
+		}
+		assertFalse(isError);
 	}
 	
-//	@Test
-//	public void testChangeTimeTable() {
-//		Controller c = loader.getController();
-//		Section sec = new Section();
-//		sec.setCode("L1(1234)");
-//		sec.setCourse("COMP 3111 Software Engineering");
-//		sec.setInstructors(new String[] {"Kenneth Leung"});
-//		sec.setNumInstructors(1);
-//		sec.setEnrolled();
-//		Slot s = new Slot();
-//		s.setDay(0);
-//		s.setStart("10:00AM");
-//		s.setEnd("11:00AM");
-//		s.setSection("test");
-//		s.setVenue("test");
-//		sec.addSlot(s);
-//		c.changeTimetable(sec);
-//		assertTrue(true);
-//	}
+	@Test
+	public void testChangeTimeTable() {
+		boolean isError = false;
+		try {
+			sleep(1000);
+			clickOn("#tabMain");
+			sleep(1000);
+			clickOn("#buttonSearch");
+			sleep(1000);
+			clickOn("#tabList");
+			sleep(1000);
+			Node node = lookup("#enroll").nth(2).query();
+			moveTo(node);
+			sleep(1000);
+			moveBy(-40, 0);
+			sleep(1000);
+			clickOn();
+			node = lookup("#enroll").nth(8).query();
+			moveTo(node);
+			sleep(1000);
+			moveBy(-40, 0);
+			sleep(1000);
+			clickOn();
+			sleep(1000);
+			clickOn();
+		} catch (Exception e) {
+			isError = true;
+		}
+		assertFalse(isError);
+	}
 	
 	@Test
 	public void testOSConstructor() throws Exception{
